@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flori Web Studio | Design Web du Futur</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #050505; color: #ffffff; overflow-x: hidden; }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .gradient-text { background: linear-gradient(90deg, #4F46E5, #9333EA, #EC4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero-glow { position: absolute; width: 50vw; height: 50vw; background: radial-gradient(circle, rgba(79, 70, 229, 0.12) 0%, rgba(0, 0, 0, 0) 70%); top: -10%; right: -10%; z-index: -1; }
+        .btn-primary { background: linear-gradient(90deg, #4F46E5, #7C3AED); transition: all 0.3s ease; }
+        .btn-primary:hover { box-shadow: 0 0 25px rgba(79, 70, 229, 0.6); transform: translateY(-2px); }
+        .lang-btn { cursor: pointer; transition: all 0.3s; opacity: 0.5; }
+        .lang-btn.active { opacity: 1; color: #4F46E5; font-weight: bold; }
+        .virtual-badge { background: rgba(79, 70, 229, 0.15); border: 1px solid rgba(79, 70, 229, 0.4); color: #818CF8; padding: 4px 12px; border-radius: 20px; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center glass px-6 py-3 rounded-2xl">
+            <div class="text-2xl font-extrabold tracking-tighter">
+                FLORI<span class="text-indigo-500">WEB</span>
+            </div>
+            
+            <div class="hidden md:flex space-x-8 font-medium text-[11px] uppercase tracking-widest text-gray-400">
+                <a href="#home" data-i18n="nav-home" class="hover:text-white transition">Accueil</a>
+                <a href="#about" data-i18n="nav-about" class="hover:text-white transition">À Propos</a>
+                <a href="#services" data-i18n="nav-services" class="hover:text-white transition">Services</a>
+                <a href="#portfolio" data-i18n="nav-portfolio" class="hover:text-white transition">Portfolio</a>
+            </div>
+
+            <div class="flex items-center space-x-4">
+                <div class="flex space-x-2 text-xs border-r border-white/10 pr-4">
+                    <span onclick="toggleLanguage('fr')" id="lang-fr" class="lang-btn active">FR</span>
+                    <span class="text-gray-600">|</span>
+                    <span onclick="toggleLanguage('en')" id="lang-en" class="lang-btn">EN</span>
+                </div>
+                <a href="https://wa.me/243974437449" class="btn-primary px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-wider" data-i18n="nav-cta">CONTACTER</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative min-h-screen flex items-center justify-center pt-20">
+        <div class="hero-glow"></div>
+        <div class="max-w-5xl mx-auto text-center px-6" data-aos="fade-up">
+            <span class="px-4 py-2 rounded-full glass text-[10px] font-bold tracking-widest text-indigo-400 uppercase mb-6 inline-block" data-i18n="hero-tag">Design Futuriste Assisté par IA</span>
+            <h1 class="text-5xl md:text-8xl font-extrabold leading-tight mb-6">
+                <span data-i18n="hero-title-1">Nous créons des sites</span> <br> <span class="gradient-text" data-i18n="hero-title-2">modernes & premium.</span>
+            </h1>
+            <p class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-10" data-i18n="hero-subtitle">
+                Donnez vie à votre marque avec une présence en ligne d'exception. Flori Web Studio fusionne créativité et intelligence artificielle.
+            </p>
+            <div class="flex flex-col md:flex-row gap-4 justify-center">
+                <a href="#portfolio" class="btn-primary px-10 py-4 rounded-xl font-bold text-lg" data-i18n="btn-portfolio">Voir le Portfolio</a>
+                <a href="https://wa.me/243974437449" class="glass px-10 py-4 rounded-xl font-bold text-lg hover:bg-white hover:text-black transition duration-300" data-i18n="btn-contact">Discuter sur WhatsApp</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section (Sites Virtuels inclus) -->
+    <section id="portfolio" class="py-24 px-6 bg-[#080808]">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4" data-i18n="port-title">Portfolio & Concepts</h2>
+                <p class="text-gray-500" data-i18n="port-subtitle">Découvrez nos projets live et nos démonstrations technologiques.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Project 1 - Virtual -->
+                <div class="group relative overflow-hidden rounded-3xl aspect-video glass" data-aos="fade-up">
+                    <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&q=80&w=800" class="absolute inset-0 w-full h-full object-cover transition duration-700 group-hover:scale-110 opacity-40">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+                    <div class="absolute bottom-0 p-8 w-full">
+                        <span class="virtual-badge" data-i18n="badge-virtual">Concept Virtuel</span>
+                        <h3 class="text-2xl font-bold mt-4">Luxe Dine Studio</h3>
+                        <p class="text-gray-400 text-sm" data-i18n="port-desc-1">Interface immersive pour restaurants de prestige.</p>
+                    </div>
+                </div>
+
+                <!-- Project 2 - Virtual -->
+                <div class="group relative overflow-hidden rounded-3xl aspect-video glass" data-aos="fade-up" data-aos-delay="100">
+                    <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=800" class="absolute inset-0 w-full h-full object-cover transition duration-700 group-hover:scale-110 opacity-40">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+                    <div class="absolute bottom-0 p-8 w-full">
+                        <span class="virtual-badge" data-i18n="badge-virtual">Concept Virtuel</span>
+                        <h3 class="text-2xl font-bold mt-4">Vogue Fashion AI</h3>
+                        <p class="text-gray-400 text-sm" data-i18n="port-desc-2">Expérience e-commerce nouvelle génération.</p>
+                    </div>
+                </div>
+
+                <!-- Project 3 - Live -->
+                <div class="group relative overflow-hidden rounded-3xl aspect-video glass" data-aos="fade-up">
+                    <img src="https://images.unsplash.com/photo-1438232992991-995b7058bbb3?auto=format&fit=crop&q=80&w=800" class="absolute inset-0 w-full h-full object-cover opacity-40 transition duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                    <div class="absolute bottom-0 p-8">
+                        <span class="text-[10px] font-bold text-indigo-400 uppercase tracking-widest" data-i18n="badge-live">Site Réalisé</span>
+                        <h3 class="text-2xl font-bold mt-2">Grace Chapel</h3>
+                        <p class="text-gray-400 text-sm" data-i18n="port-desc-3">Site moderne pour communauté religieuse.</p>
+                    </div>
+                </div>
+
+                <!-- Project 4 - Live -->
+                <div class="group relative overflow-hidden rounded-3xl aspect-video glass" data-aos="fade-up" data-aos-delay="100">
+                    <img src="https://images.unsplash.com/photo-1523050335456-c4e16499824c?auto=format&fit=crop&q=80&w=800" class="absolute inset-0 w-full h-full object-cover opacity-40 transition duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                    <div class="absolute bottom-0 p-8">
+                        <span class="text-[10px] font-bold text-indigo-400 uppercase tracking-widest" data-i18n="badge-live">Site Réalisé</span>
+                        <h3 class="text-2xl font-bold mt-2">Nova School</h3>
+                        <p class="text-gray-400 text-sm" data-i18n="port-desc-4">Système de gestion scolaire et vitrine moderne.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact & Footer -->
+    <footer id="contact" class="py-24 px-6 border-t border-white/10 bg-gradient-to-b from-transparent to-indigo-950/20">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-4xl md:text-5xl font-extrabold mb-8" data-i18n="contact-title">Besoin d'un site web professionnel ?</h2>
+            
+            <div class="grid md:grid-cols-2 gap-6 mb-16">
+                <!-- WhatsApp Card -->
+                <a href="https://wa.me/243974437449" target="_blank" class="glass p-8 rounded-3xl hover:bg-green-500/10 transition group border border-white/5">
+                    <i data-lucide="message-circle" class="w-12 h-12 mx-auto mb-4 text-green-500"></i>
+                    <h4 class="text-xl font-bold mb-2">WhatsApp</h4>
+                    <p class="text-gray-400 text-sm">+243 974 437 449</p>
+                </a>
+                
+                <!-- Email Card -->
+                <a href="mailto:floribertjean1@gmail.com" class="glass p-8 rounded-3xl hover:bg-indigo-500/10 transition group border border-white/5">
+                    <i data-lucide="mail" class="w-12 h-12 mx-auto mb-4 text-indigo-500"></i>
+                    <h4 class="text-xl font-bold mb-2">E-mail</h4>
+                    <p class="text-gray-400 text-sm">floribertjean1@gmail.com</p>
+                </a>
+            </div>
+
+            <div class="flex flex-col items-center">
+                <div class="text-2xl font-extrabold mb-4">
+                    FLORI<span class="text-indigo-500">WEB</span> STUDIO
+                </div>
+                <p class="text-gray-500 text-xs tracking-widest uppercase" data-i18n="footer-bottom">Créativité. Vitesse. Intelligence.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 1000, once: true });
+        lucide.createIcons();
+
+        // Système de Traduction
+        const translations = {
+            fr: {
+                "nav-home": "Accueil",
+                "nav-about": "À Propos",
+                "nav-services": "Services",
+                "nav-portfolio": "Portfolio",
+                "nav-cta": "CONTACTER",
+                "hero-tag": "Design Futuriste Assisté par IA",
+                "hero-title-1": "Nous créons des sites",
+                "hero-title-2": "modernes & premium.",
+                "hero-subtitle": "Donnez vie à votre marque avec une présence en ligne d'exception. Flori Web Studio fusionne créativité et intelligence artificielle.",
+                "btn-portfolio": "Voir le Portfolio",
+                "btn-contact": "Discuter sur WhatsApp",
+                "port-title": "Portfolio & Concepts",
+                "port-subtitle": "Découvrez nos projets live et nos démonstrations technologiques.",
+                "badge-virtual": "Concept Virtuel",
+                "badge-live": "Site Réalisé",
+                "port-desc-1": "Interface immersive pour restaurants de prestige.",
+                "port-desc-2": "Expérience e-commerce nouvelle génération.",
+                "port-desc-3": "Site moderne pour communauté religieuse.",
+                "port-desc-4": "Système de gestion scolaire et vitrine moderne.",
+                "contact-title": "Besoin d'un site web professionnel ?",
+                "footer-bottom": "Créativité. Vitesse. Intelligence."
+            },
+            en: {
+                "nav-home": "Home",
+                "nav-about": "About",
+                "nav-services": "Services",
+                "nav-portfolio": "Portfolio",
+                "nav-cta": "CONTACT",
+                "hero-tag": "AI-Powered Futuristic Design",
+                "hero-title-1": "We create modern",
+                "hero-title-2": "& premium websites.",
+                "hero-subtitle": "Bring your brand to life with an exceptional online presence. Flori Web Studio merges creativity and AI.",
+                "btn-portfolio": "View Portfolio",
+                "btn-contact": "Chat on WhatsApp",
+                "port-title": "Portfolio & Concepts",
+                "port-subtitle": "Explore our live projects and technological demos.",
+                "badge-virtual": "Virtual Concept",
+                "badge-live": "Live Project",
+                "port-desc-1": "Immersive interface for prestige restaurants.",
+                "port-desc-2": "Next-generation e-commerce experience.",
+                "port-desc-3": "Modern site for religious communities.",
+                "port-desc-4": "School management system and modern showcase.",
+                "contact-title": "Need a professional website?",
+                "footer-bottom": "Creativity. Speed. Intelligence."
+            }
+        };
+
+        function toggleLanguage(lang) {
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('lang-' + lang).classList.add('active');
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang][key]) el.innerText = translations[lang][key];
+            });
+        }
+    </script>
+</body>
+</html>
