@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flori Web Studio | Solutions Digitales</title>
+    <title>Flori Web Studio | Solutions Digitales Futuristes</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     
     <style>
         body { 
@@ -14,172 +17,320 @@
             background-color: #050508; 
             color: #ffffff; 
             margin: 0;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden; 
+            overflow-x: hidden;
         }
         
-        /* Gestion des pages */
-        .page-content { display: none; height: 100%; overflow-y: auto; padding: 40px 20px; }
-        .page-content.active { display: block; animation: fadeIn 0.4s ease-out; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.98); }
-            to { opacity: 1; transform: scale(1); }
+        .immersive-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .glass-nav { background: rgba(10, 10, 15, 0.95); border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .card-service { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; padding: 20px; transition: 0.3s; }
-        .card-service:hover { border-color: #6366f1; background: rgba(99, 102, 241, 0.08); }
-        
-        .active-link { color: #6366f1 !important; border-bottom: 2px solid #6366f1; }
+        .immersive-card:hover {
+            border-color: rgba(79, 70, 229, 0.4);
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-4px);
+        }
+
+        .glow-indigo {
+            background: radial-gradient(circle, rgba(79, 70, 229, 0.15) 0%, transparent 70%);
+        }
+
+        .glow-purple {
+            background: radial-gradient(circle, rgba(147, 51, 234, 0.1) 0%, transparent 70%);
+        }
+
+        .glass-nav {
+            background: rgba(5, 5, 8, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #050508; }
+        ::-webkit-scrollbar-thumb { background: #1e1e2d; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #312e81; }
+
+        .hidden-scrollbar::-webkit-scrollbar { display: none; }
     </style>
 </head>
 <body>
+    <div id="root"></div>
 
-    <!-- BARRE DE NAVIGATION (FIXE) -->
-    <nav class="glass-nav h-[70px] flex-shrink-0 flex items-center z-50">
-        <div class="max-w-7xl mx-auto w-full flex justify-between items-center px-6">
-            <div class="text-xl font-black text-indigo-500 tracking-tighter uppercase">
-                FLORI<span class="text-white">WEB</span>
-            </div>
-            
-            <!-- Menu -->
-            <div class="flex items-center space-x-1 md:space-x-4">
-                <button onclick="openPage('home')" id="btn-home" class="nav-link text-[10px] md:text-xs font-bold uppercase tracking-widest px-2 py-1 transition">Accueil</button>
-                <button onclick="openPage('about')" id="btn-about" class="nav-link text-[10px] md:text-xs font-bold uppercase tracking-widest px-2 py-1 transition">À Propos</button>
-                <button onclick="openPage('services')" id="btn-services" class="nav-link text-[10px] md:text-xs font-bold uppercase tracking-widest px-2 py-1 transition">Services</button>
-                <button onclick="openPage('portfolio')" id="btn-portfolio" class="nav-link text-[10px] md:text-xs font-bold uppercase tracking-widest px-2 py-1 transition">Portfolio</button>
-                <button onclick="openPage('contact')" id="btn-contact" class="hidden md:block bg-indigo-600 px-4 py-2 rounded-lg text-[10px] font-bold uppercase tracking-widest">Contact</button>
-            </div>
-        </div>
-    </nav>
-
-    <!-- ZONE DE CONTENU -->
-    <main class="flex-grow relative">
-
-        <!-- PAGE : ACCUEIL -->
-        <section id="home" class="page-content active">
-            <div class="max-w-4xl mx-auto text-center pt-10">
-                <h1 class="text-4xl md:text-7xl font-extrabold leading-tight mb-6">
-                    Ne vous contentez pas d'un site, <br>
-                    <span class="text-indigo-500">dominez votre marché.</span>
-                </h1>
-                <p class="text-gray-400 text-lg md:text-xl mb-12 max-w-2xl mx-auto">
-                    Flori Web Studio crée des plateformes digitales haut de gamme alliant Intelligence Artificielle et design futuriste.
-                </p>
-                <div class="flex flex-col md:flex-row justify-center gap-4">
-                    <button onclick="openPage('portfolio')" class="bg-indigo-600 px-10 py-4 rounded-2xl font-bold text-lg hover:bg-indigo-500 transition">Découvrir mes projets</button>
-                    <button onclick="openPage('contact')" class="border border-white/20 px-10 py-4 rounded-2xl font-bold hover:bg-white/5 transition">Me contacter</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- PAGE : À PROPOS -->
-        <section id="about" class="page-content">
-            <div class="max-w-4xl mx-auto pt-10">
-                <h2 class="text-3xl md:text-5xl font-extrabold mb-10 text-center uppercase">À Propos</h2>
-                <div class="space-y-6 text-gray-300 text-lg md:text-xl leading-relaxed">
-                    <div class="border-l-4 border-indigo-500 pl-6 py-2">
-                        <p>Chez Flori Web Studio, nous créons des sites web modernes, professionnels et performants grâce à l’intelligence artificielle et aux dernières technologies du web.</p>
-                    </div>
-                    <p>Notre mission est d’aider les entreprises, entrepreneurs, boutiques, églises et écoles à développer leur présence en ligne avec des sites attractifs, rapides et optimisés.</p>
-                    <p class="text-white font-bold bg-indigo-600/10 p-4 rounded-xl">Nous combinons créativité, innovation et stratégie digitale pour livrer des sites web qui attirent des clients et augmentent la visibilité de votre activité.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- PAGE : SERVICES -->
-        <section id="services" class="page-content">
-            <div class="max-w-6xl mx-auto pt-10">
-                <h2 class="text-3xl md:text-5xl font-extrabold mb-12 text-center uppercase">Nos Services</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div class="card-service text-center"><i data-lucide="layout" class="mx-auto mb-4 text-indigo-500"></i><h3 class="font-bold">Sites Vitrines</h3><p class="text-xs text-gray-500 mt-2">Présentez votre activité avec élégance.</p></div>
-                    <div class="card-service text-center"><i data-lucide="shopping-cart" class="mx-auto mb-4 text-indigo-500"></i><h3 class="font-bold">E-commerce</h3><p class="text-xs text-gray-500 mt-2">Vendez vos produits en toute sécurité.</p></div>
-                    <div class="card-service text-center"><i data-lucide="zap" class="mx-auto mb-4 text-indigo-500"></i><h3 class="font-bold">Landing Pages</h3><p class="text-xs text-gray-500 mt-2">Maximisez vos conversions de clients.</p></div>
-                    <div class="card-service text-center"><i data-lucide="refresh-cw" class="mx-auto mb-4 text-indigo-500"></i><h3 class="font-bold">Refonte Web</h3><p class="text-xs text-gray-500 mt-2">Modernisez votre ancien site web.</p></div>
-                    <div class="card-service text-center"><i data-lucide="bot" class="mx-auto mb-4 text-indigo-500"></i><h3 class="font-bold">Sites Assistés par IA</h3><p class="text-xs text-gray-500 mt-2">Vitesse de création révolutionnaire.</p></div>
-                    <div class="card-service text-center"><i data-lucide="smartphone" class="mx-auto mb-4 text-indigo-500"></i><h3 class="font-bold">Design Responsive</h3><p class="text-xs text-gray-500 mt-2">Adapté aux iPhones et Android.</p></div>
-                    <div class="card-service text-center"><i data-lucide="search" class="mx-auto mb-4 text-indigo-500"></i><h3 class="font-bold">Optimisation SEO</h3><p class="text-xs text-gray-500 mt-2">Soyez premier sur Google.</p></div>
-                    <div class="card-service text-center"><i data-lucide="settings" class="mx-auto mb-4 text-indigo-500"></i><h3 class="font-bold">Maintenance</h3><p class="text-xs text-gray-500 mt-2">Support technique et mises à jour.</p></div>
-                </div>
-            </div>
-        </section>
-
-        <!-- PAGE : PORTFOLIO -->
-        <section id="portfolio" class="page-content">
-            <div class="max-w-6xl mx-auto pt-10 px-4">
-                <h2 class="text-3xl md:text-5xl font-extrabold mb-12 text-center uppercase">Réalisations</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <!-- Projet 1 -->
-                    <div class="card-service border-l-4 border-indigo-500">
-                        <h3 class="text-2xl font-bold mb-2">Luxe Gastronomie</h3>
-                        <p class="text-gray-400 mb-6">Site web complet pour restaurant de luxe avec menu interactif et réservation WhatsApp.</p>
-                        <a href="https://github.com/floribertflori1-dot" target="_blank" class="inline-flex items-center gap-2 text-indigo-400 font-bold uppercase text-xs tracking-widest">Voir le projet <i data-lucide="external-link" class="w-4 h-4"></i></a>
-                    </div>
-                    <!-- Projet 2 -->
-                    <div class="card-service border-l-4 border-indigo-500">
-                        <h3 class="text-2xl font-bold mb-2">Nova School Portal</h3>
-                        <p class="text-gray-400 mb-6">Portail digital éducatif pour la gestion des informations scolaires en temps réel.</p>
-                        <a href="https://github.com/floribertflori1-dot" target="_blank" class="inline-flex items-center gap-2 text-indigo-400 font-bold uppercase text-xs tracking-widest">Voir le projet <i data-lucide="external-link" class="w-4 h-4"></i></a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- PAGE : CONTACT -->
-        <section id="contact" class="page-content">
-            <div class="max-w-3xl mx-auto pt-10 text-center">
-                <h2 class="text-3xl md:text-5xl font-extrabold mb-12 uppercase">Démarrons un projet</h2>
-                <div class="space-y-6">
-                    <a href="https://wa.me/243974437449" class="block bg-[#25D366] p-8 rounded-3xl text-2xl font-black hover:scale-105 transition duration-300">
-                        WHATSAPP DIRECT
-                    </a>
-                    <a href="mailto:floribertjean1@gmail.com" class="block bg-white text-black p-8 rounded-3xl text-xl font-bold hover:scale-105 transition duration-300">
-                        floribertjean1@gmail.com
-                    </a>
-                </div>
-                <p class="mt-24 text-gray-600 font-mono text-[10px] uppercase tracking-widest">© 2024 Flori Web Studio | Precision Development</p>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- SCRIPTS -->
     <script>
-        // Initialisation des icônes
-        lucide.createIcons();
+        const { useState, useEffect, useRef } = React;
+        const { motion, AnimatePresence } = FramerMotion;
 
-        // FONCTION DE NAVIGATION (CORRIGÉE)
-        function openPage(pageId) {
-            // 1. Masquer toutes les sections
-            const pages = document.querySelectorAll('.page-content');
-            pages.forEach(page => {
-                page.classList.remove('active');
-            });
-
-            // 2. Afficher la section demandée
-            const targetPage = document.getElementById(pageId);
-            if (targetPage) {
-                targetPage.classList.add('active');
-            }
-
-            // 3. Gérer l'état visuel du menu
-            const links = document.querySelectorAll('.nav-link');
-            links.forEach(link => {
-                link.classList.remove('active-link');
-            });
-            const activeBtn = document.getElementById('btn-' + pageId);
-            if (activeBtn) {
-                activeBtn.classList.add('active-link');
-            }
-        }
-
-        // Par défaut, activer le bouton accueil au chargement
-        window.onload = function() {
-            document.getElementById('btn-home').classList.add('active-link');
+        // UI Components
+        const Icon = ({ name, className }) => {
+            useEffect(() => { lucide.createIcons(); }, []);
+            return React.createElement('i', { 'data-lucide': name, className });
         };
+
+        const App = () => {
+            const [page, setPage] = useState('home');
+            const [isChatOpen, setIsChatOpen] = useState(false);
+            const [testimonials, setTestimonials] = useState([
+                { name: "Jean-Marc L.", company: "CEO @ Innovate Plus", quote: "Flori Web Studio a complètement révolutionné notre image de marque. L'intégration de l'IA a doublé notre taux de conversion.", photo: "https://api.dicebear.com/7.x/avataaars/svg?seed=John" },
+                { name: "Sarah M.", company: "Fondatrice @ GreenEat", quote: "Un design futuriste et une rapidité d'exécution incroyable. Mon site est désormais plus rapide sur mobile que sur desktop.", photo: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah" },
+                { name: "Patrick K.", company: "Pasteur @ Église Lumière", quote: "La gestion de notre portail communautaire est devenue d'une simplicité déconcenrante. Merci Flori !", photo: "https://api.dicebear.com/7.x/avataaars/svg?seed=Patrick" }
+            ]);
+
+            return React.createElement('div', { className: 'min-h-screen flex flex-col relative' },
+                // Backgrounds
+                React.createElement('div', { className: 'fixed top-[-10%] right-[-10%] w-[600px] h-[600px] glow-indigo rounded-full pointer-events-none z-0' }),
+                React.createElement('div', { className: 'fixed bottom-[-10%] left-[-10%] w-[500px] h-[500px] glow-purple rounded-full pointer-events-none z-0' }),
+
+                // ChatBot
+                React.createElement(ChatBot, { isOpen: isChatOpen, setIsOpen: setIsChatOpen }),
+
+                // Navigation
+                React.createElement('nav', { className: 'glass-nav h-[80px] sticky top-0 z-50 flex items-center px-6 md:px-12' },
+                    React.createElement('div', { className: 'max-w-7xl mx-auto w-full flex justify-between items-center' },
+                        React.createElement('div', { className: 'flex items-center gap-3 cursor-pointer', onClick: () => setPage('home') },
+                            React.createElement('div', { className: 'w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center rotate-45' },
+                                React.createElement('div', { className: 'w-3 h-3 bg-white rounded-sm -rotate-45' })
+                            ),
+                            React.createElement('span', { className: 'text-xl font-black uppercase tracking-tighter' }, 
+                                'FLORI', React.createElement('span', { className: 'text-indigo-500' }, 'WEB')
+                            )
+                        ),
+                        React.createElement('div', { className: 'hidden md:flex items-center space-x-8 uppercase text-[10px] font-bold tracking-widest text-gray-400' },
+                            ['home', 'services', 'portfolio', 'testimonials', 'about'].map(p => 
+                                React.createElement('span', { 
+                                    key: p, 
+                                    className: `cursor-pointer transition-colors hover:text-white ${page === p ? 'text-indigo-500' : ''}`,
+                                    onClick: () => setPage(p)
+                                }, p === 'home' ? 'Accueil' : p === 'testimonials' ? 'Témoignages' : p === 'about' ? 'À Propos' : p.charAt(0).toUpperCase() + p.slice(1))
+                            ),
+                            React.createElement('button', { 
+                                className: 'bg-indigo-600 text-white px-6 py-2 rounded-full border border-indigo-400/30 hover:bg-indigo-500 transition-all',
+                                onClick: () => setPage('quote')
+                            }, 'Devis Gratuit')
+                        )
+                    )
+                ),
+
+                // Main Content
+                React.createElement('main', { className: 'flex-grow relative z-10 px-6 md:px-12 py-12' },
+                    React.createElement(AnimatePresence, { mode: 'wait' },
+                        page === 'home' && React.createElement(HomeSection, { onPortfolio: () => setPage('portfolio'), onContact: () => setPage('quote') }),
+                        page === 'services' && React.createElement(ServicesSection),
+                        page === 'portfolio' && React.createElement(PortfolioSection),
+                        page === 'testimonials' && React.createElement(TestimonialsSection, { list: testimonials, onAdd: (t) => setTestimonials([t, ...testimonials]) }),
+                        page === 'about' && React.createElement(AboutSection),
+                        page === 'quote' && React.createElement(QuoteSection)
+                    )
+                ),
+
+                // Footer
+                React.createElement('footer', { className: 'h-[60px] border-t border-white/5 flex items-center justify-between px-12 bg-transparent z-10' },
+                    React.createElement('div', { className: 'flex items-center gap-8' },
+                        React.createElement('div', { className: 'flex items-center gap-2' },
+                            React.createElement('div', { className: 'w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.6)]' }),
+                            React.createElement('span', { className: 'text-[10px] font-bold text-gray-500 uppercase tracking-widest' }, 'System Online')
+                        )
+                    ),
+                    React.createElement('div', { className: 'text-[10px] font-mono text-indigo-500/40 uppercase' }, '// STATUS_V2.0.FINAL')
+                )
+            );
+        };
+
+        const HomeSection = ({ onPortfolio, onContact }) => React.createElement(motion.div, { 
+            initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 }, exit: { opacity: 0, y: -20 },
+            className: 'max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 pt-10'
+        },
+            React.createElement('div', { className: 'lg:col-span-7 space-y-8' },
+                React.createElement('div', { className: 'inline-flex items-center gap-2 px-3 py-1 bg-indigo-500/10 border border-indigo-500/30 rounded-full' },
+                    React.createElement('span', { className: 'w-2 h-2 bg-indigo-500 rounded-full animate-pulse' }),
+                    React.createElement('span', { className: 'text-[10px] font-bold uppercase tracking-widest text-indigo-400' }, 'Solutions Digitales Futuristes')
+                ),
+                React.createElement('h1', { className: 'text-5xl md:text-7xl font-black leading-tight' }, 
+                    'Ne vous contentez pas d\'un site, ', React.createElement('br'),
+                    React.createElement('span', { className: 'text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-500' }, 'dominez votre marché.')
+                ),
+                React.createElement('p', { className: 'text-gray-400 text-lg md:text-xl leading-relaxed max-w-xl' }, 
+                    'Flori Web Studio crée des plateformes digitales haut de gamme alliant Intelligence Artificielle et design haute performance pour booster votre activité.'
+                ),
+                React.createElement('div', { className: 'flex flex-col sm:flex-row gap-4' },
+                    React.createElement('button', { onClick: onPortfolio, className: 'bg-white text-black px-10 py-4 rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-indigo-50 transition-all' }, 'Voir Réalisations', React.createElement(Icon, { name: 'chevron-right', className: 'w-5 h-5' })),
+                    React.createElement('button', { onClick: onContact, className: 'border border-white/20 px-10 py-4 rounded-2xl font-bold hover:bg-white/5 transition-all' }, 'Lancer un projet')
+                )
+            ),
+            React.createElement('div', { className: 'hidden lg:col-span-5 lg:flex flex-col gap-6' },
+                React.createElement('div', { className: 'grid grid-cols-2 gap-4' },
+                    React.createElement('div', { className: 'immersive-card p-6 rounded-[32px]' },
+                        React.createElement(Icon, { name: 'layout', className: 'w-8 h-8 text-indigo-500 mb-4' }),
+                        React.createElement('h3', { className: 'font-bold' }, 'Web & Mobile'),
+                        React.createElement('p', { className: 'text-[10px] text-gray-500 mt-1 uppercase' }, 'Design Futuriste')
+                    ),
+                    React.createElement('div', { className: 'immersive-card p-6 rounded-[32px] mt-8' },
+                        React.createElement(Icon, { name: 'bot', className: 'w-8 h-8 text-purple-500 mb-4' }),
+                        React.createElement('h3', { className: 'font-bold' }, 'IA Assisté'),
+                        React.createElement('p', { className: 'text-[10px] text-gray-500 mt-1 uppercase' }, 'Automation')
+                    )
+                )
+            )
+        );
+
+        const ServicesSection = () => React.createElement(motion.div, { initial: { opacity: 0 }, animate: { opacity: 1 }, className: 'max-w-6xl mx-auto pt-10' },
+            React.createElement('h2', { className: 'text-4xl font-black text-center mb-16 uppercase italic' }, 'Nos Services'),
+            React.createElement('div', { className: 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6' },
+                ['Sites Vitrines', 'E-commerce', 'Landing Pages', 'Referencement SEO', 'Design UI/UX', 'Maintenance', 'IA Solutions', 'Applications Web'].map(s => 
+                    React.createElement('div', { key: s, className: 'immersive-card p-8 rounded-[32px] text-center group' },
+                        React.createElement('div', { className: 'w-14 h-14 bg-indigo-500/10 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 duration-500' },
+                            React.createElement(Icon, { name: 'zap', className: 'text-indigo-500 w-7 h-7' })
+                        ),
+                        React.createElement('h3', { className: 'font-bold text-lg' }, s)
+                    )
+                )
+            )
+        );
+
+        const PortfolioSection = () => React.createElement(motion.div, { initial: { opacity: 0 }, animate: { opacity: 1 }, className: 'max-w-5xl mx-auto pt-10' },
+            React.createElement('h2', { className: 'text-4xl font-black text-center mb-16 uppercase italic' }, 'Portfolio'),
+            React.createElement('div', { className: 'grid grid-cols-1 md:grid-cols-2 gap-8' },
+                [
+                    { t: 'Luxe Gastronomie', d: 'Site complet pour restaurant haute gamme avec réservation WhatsApp.' },
+                    { t: 'Nova School Portal', d: 'Gestion scolaire moderne en temps réel pour écoles et universités.' }
+                ].map(p => 
+                    React.createElement('div', { key: p.t, className: 'immersive-card border-l-4 border-l-indigo-500 p-10 rounded-[32px]' },
+                        React.createElement('h3', { className: 'text-2xl font-black mb-4' }, p.t),
+                        React.createElement('p', { className: 'text-gray-400 mb-8' }, p.d),
+                        React.createElement('a', { href: '#', className: 'text-indigo-400 text-[10px] font-bold uppercase tracking-[0.2em] border border-indigo-400/20 px-4 py-2 rounded-full' }, 'Voir Projet')
+                    )
+                )
+            )
+        );
+
+        const QuoteSection = () => {
+            const [sent, setSent] = useState(false);
+            return React.createElement(motion.div, { initial: { opacity: 0 }, animate: { opacity: 1 }, className: 'max-w-3xl mx-auto pt-10' },
+                React.createElement('h2', { className: 'text-4xl font-black text-center mb-4' }, 'DEMANDER UN DEVIS'),
+                React.createElement('p', { className: 'text-center text-gray-500 mb-12 uppercase tracking-widest text-xs' }, 'Réponse garantie sous 24 heures'),
+                sent ? 
+                    React.createElement('div', { className: 'text-center p-20 immersive-card rounded-[40px]' },
+                        React.createElement(Icon, { name: 'check-circle', className: 'w-20 h-20 text-green-500 mx-auto mb-6' }),
+                        React.createElement('h3', { className: 'text-2xl font-bold' }, 'Demande Envoyée !'),
+                        React.createElement('p', { className: 'mt-2 text-gray-400' }, 'Merci, nous revenons vers vous rapidement.')
+                    ) :
+                    React.createElement('form', { 
+                        className: 'immersive-card p-10 rounded-[40px] space-y-6',
+                        onSubmit: (e) => { e.preventDefault(); setSent(true); }
+                    },
+                        React.createElement('div', { className: 'grid grid-cols-2 gap-4' },
+                            React.createElement('input', { required: true, type: 'text', placeholder: 'Nom Complet', className: 'bg-white/5 border border-white/10 p-4 rounded-2xl w-full outline-none focus:border-indigo-500' }),
+                            React.createElement('input', { required: true, type: 'email', placeholder: 'Email', className: 'bg-white/5 border border-white/10 p-4 rounded-2xl w-full outline-none focus:border-indigo-500' })
+                        ),
+                        React.createElement('select', { required: true, className: 'bg-white/5 border border-white/10 p-4 rounded-2xl w-full outline-none text-gray-400' },
+                            React.createElement('option', { value: '' }, 'Budget Estimé'),
+                            React.createElement('option', { value: '50' }, 'Moins de 50 $'),
+                            React.createElement('option', { value: '100' }, '50 $ - 100 $'),
+                            React.createElement('option', { value: '200' }, '100 $ - 200 $'),
+                            React.createElement('option', { value: '250' }, 'Jusqu\'à 250 $')
+                        ),
+                        React.createElement('textarea', { required: true, placeholder: 'Déterminez votre vision en quelques mots...', className: 'bg-white/5 border border-white/10 p-4 rounded-2xl w-full outline-none h-32' }),
+                        React.createElement('button', { type: 'submit', className: 'w-full bg-white text-black py-4 rounded-2xl font-bold text-lg hover:bg-indigo-50 transition-all' }, 'ENVOYER MA DEMANDE')
+                    )
+            );
+        };
+
+        const TestimonialsSection = ({ list, onAdd }) => {
+            const [adding, setAdding] = useState(false);
+            return React.createElement(motion.div, { className: 'max-w-6xl mx-auto pt-10' },
+                React.createElement('h2', { className: 'text-3xl font-black text-center mb-12 italic uppercase' }, 'TEMOIGNAGES'),
+                React.createElement('div', { className: 'grid grid-cols-1 md:grid-cols-3 gap-8' },
+                    list.map((t, i) => React.createElement('div', { key: i, className: 'immersive-card p-8 rounded-[32px]' },
+                        React.createElement('div', { className: 'flex items-center gap-4 mb-6' },
+                            React.createElement('img', { src: t.photo, className: 'w-12 h-12 rounded-full border border-indigo-500/30' }),
+                            React.createElement('div', {}, 
+                                React.createElement('h4', { className: 'font-bold' }, t.name),
+                                React.createElement('p', { className: 'text-[9px] text-indigo-400 uppercase tracking-widest' }, t.company)
+                            )
+                        ),
+                        React.createElement('p', { className: 'text-sm text-gray-300 italic' }, `"${t.quote}"`)
+                    ))
+                ),
+                React.createElement('div', { className: 'mt-16 max-w-xl mx-auto' },
+                    React.createElement('button', { onClick: () => setAdding(!adding), className: 'w-full text-center text-xs uppercase tracking-[0.3em] font-bold text-indigo-400 border border-indigo-500/20 py-4 rounded-2xl mb-6 hover:bg-indigo-500/10' }, adding ? 'Fermer' : '+ Ajouter mon témoignage'),
+                    adding && React.createElement(TestimonialForm, { onAdd: (t) => { onAdd(t); setAdding(false); } })
+                )
+            );
+        };
+
+        const TestimonialForm = ({ onAdd }) => {
+            const [fd, setFd] = useState({ name: '', company: '', quote: '' });
+            return React.createElement('form', { 
+                className: 'immersive-card p-8 rounded-[32px] space-y-4',
+                onSubmit: (e) => { e.preventDefault(); onAdd({...fd, photo: `https://api.dicebear.com/7.x/avataaars/svg?seed=${fd.name}`}); }
+            },
+                React.createElement('input', { required: true, type: 'text', placeholder: 'Nom', value: fd.name, onChange: (e) => setFd({...fd, name:e.target.value}), className: 'w-full bg-white/5 border border-white/10 p-3 rounded-xl' }),
+                React.createElement('input', { required: true, type: 'text', placeholder: 'Entreprise', value: fd.company, onChange: (e) => setFd({...fd, company:e.target.value}), className: 'w-full bg-white/5 border border-white/10 p-3 rounded-xl' }),
+                React.createElement('textarea', { required: true, placeholder: 'Message', value: fd.quote, onChange: (e) => setFd({...fd, quote:e.target.value}), className: 'w-full bg-white/5 border border-white/10 p-3 rounded-xl h-24' }),
+                React.createElement('button', { type: 'submit', className: 'bg-indigo-600 w-full py-3 rounded-xl font-bold uppercase text-xs tracking-widest' }, 'Publier')
+            );
+        };
+
+        const AboutSection = () => React.createElement(motion.div, { className: 'max-w-4xl mx-auto pt-10' },
+            React.createElement('h2', { className: 'text-4xl font-black text-center mb-12 uppercase italic' }, 'À PROPOS'),
+            React.createElement('div', { className: 'space-y-6 text-lg text-gray-300 leading-relaxed' },
+                React.createElement('div', { className: 'border-l-4 border-indigo-500 pl-8' }, 
+                    'Flori Web Studio est né de la volonté d\'apporter des technologies de pointe (IA, Cloud, Headless CMS) aux entrepreneurs et structures locales.'
+                ),
+                React.createElement('p', {}, 'Nous fusionnons créativité artistique et rigueur technique pour créer des sites qui ne sont pas juste beaux, mais qui convertissent réellement des visiteurs en clients.'),
+                React.createElement('div', { className: 'p-8 rounded-[32px] bg-indigo-600/10 border border-indigo-500/20 text-white font-bold' },
+                    'Notre engagement : Excellence logicielle, design futuriste et support continu.'
+                )
+            )
+        );
+
+        const ChatBot = ({ isOpen, setIsOpen }) => {
+            const [msgs, setMsgs] = useState([{ r: 'bot', t: 'Bonjour ! Je suis Flori AI. Besoin d\'un site web futuriste ?' }]);
+            const [val, setVal] = useState('');
+            const [load, setLoad] = useState(false);
+
+            const send = () => {
+                if(!val.trim()) return;
+                const user = val.trim().toLowerCase();
+                setMsgs(p => [...p, { r: 'user', t: val }]); setVal(''); setLoad(true);
+                setTimeout(() => {
+                    let resp = "Désolé, je suis en mode limité. Contactez-nous directememt via WhatsApp pour une étude personnalisée !";
+                    if(user.includes('prix') || user.includes('cout')) resp = "Nos prix varient mais nous pouvons lancer un projet de qualité dès 50$ jusqu'à 250$ environ.";
+                    if(user.includes('salut') || user.includes('bonjour')) resp = "Salutations ! Comment puis-je vous assister dans votre transformation digitale ?";
+                    setMsgs(p => [...p, { r: 'bot', t: resp }]); setLoad(false);
+                }, 800);
+            };
+
+            return React.createElement('div', { className: 'fixed bottom-10 right-10 z-[100]' },
+                React.createElement('button', { 
+                    onClick: () => setIsOpen(!isOpen),
+                    className: 'w-16 h-16 bg-indigo-600 rounded-full flex items-center justify-center text-white shadow-2xl relative'
+                }, 
+                    React.createElement(Icon, { name: isOpen ? 'x' : 'message-square', className: 'w-8 h-8' }),
+                    !isOpen && React.createElement('span', { className: 'absolute -top-1 -right-1 w-5 h-5 bg-purple-500 rounded-full text-[10px] flex items-center justify-center font-bold border-2 border-[#050508]' }, 'AI')
+                ),
+                isOpen && React.createElement(motion.div, { 
+                    initial: { opacity: 0, y: 50, scale: 0.9 }, animate: { opacity: 1, y: 0, scale: 1 },
+                    className: 'absolute bottom-20 right-0 w-[350px] h-[450px] immersive-card rounded-[32px] border-indigo-500/30 overflow-hidden flex flex-col shadow-2xl'
+                },
+                    React.createElement('div', { className: 'p-5 bg-indigo-600 text-white font-bold flex justify-between' }, 'Flori Assistant', React.createElement('span', { onClick: () => setIsOpen(false), className: 'cursor-pointer opacity-50 hover:opacity-100' }, 'X')),
+                    React.createElement('div', { className: 'flex-grow p-4 overflow-y-auto space-y-3 text-xs' },
+                        msgs.map((m, i) => React.createElement('div', { key: i, className: `flex ${m.r === 'user' ? 'justify-end' : 'justify-start'}` },
+                            React.createElement('div', { className: `p-3 rounded-2xl max-w-[80%] ${m.r === 'user' ? 'bg-indigo-600' : 'bg-white/10'}` }, m.t)
+                        )),
+                        load && React.createElement('div', { className: 'text-[10px] text-gray-500 animate-pulse' }, 'L\'IA réfléchi...')
+                    ),
+                    React.createElement('div', { className: 'p-4 border-t border-white/5 bg-black/30 flex gap-2' },
+                        React.createElement('input', { value: val, onChange: (e) => setVal(e.target.value), onKeyDown: (e) => e.key === 'Enter' && send(), placeholder: 'Écrivez ici...', className: 'flex-grow bg-white/5 border border-white/10 p-3 rounded-xl outline-none text-xs' }),
+                        React.createElement('button', { onClick: send, className: 'bg-indigo-600 p-3 rounded-xl' }, React.createElement(Icon, { name: 'send', className: 'w-4 h-4' }))
+                    )
+                )
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(React.createElement(App));
     </script>
 </body>
 </html>
