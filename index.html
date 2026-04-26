@@ -1,262 +1,185 @@
 <!DOCTYPE html>
-<html lang="fr" class="scroll-smooth">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flori Web Studio | Excellence Digital & IA</title>
+    <title>Flori Web Studio | Solutions Digitales</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=Fira+Code:wght@400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #020205; color: #ffffff; overflow-x: hidden; }
-        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.08); }
-        .gradient-text { background: linear-gradient(135deg, #6366f1, #a855f7, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .welcome-banner { background: linear-gradient(90deg, #4f46e5, #9333ea); color: white; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
-        .hero-img-box { border-radius: 40px; overflow: hidden; border: 1px solid rgba(99, 102, 241, 0.3); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
-        .port-card { transition: all 0.4s ease; border: 1px solid rgba(255,255,255,0.05); }
-        .port-card:hover { transform: translateY(-10px); border-color: #6366f1; background: rgba(99, 102, 241, 0.05); }
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: #050508; 
+            color: #ffffff; 
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden; 
+        }
+        
+        /* Gestion des pages */
+        .page-content { display: none; height: 100%; overflow-y: auto; padding: 40px 20px; }
+        .page-content.active { display: block; animation: fadeIn 0.4s ease-out; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .glass-nav { background: rgba(10, 10, 15, 0.95); border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .card-service { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; padding: 20px; transition: 0.3s; }
+        .card-service:hover { border-color: #6366f1; background: rgba(99, 102, 241, 0.08); }
+        
+        .active-link { color: #6366f1 !important; border-bottom: 2px solid #6366f1; }
     </style>
 </head>
 <body>
 
-    <!-- Message d'accueil -->
-    <div class="welcome-banner py-3 px-6 text-center text-[10px] md:text-xs">
-         <span data-i18n="top-msg">Propulsez votre business au niveau supérieur avec un site web d'exception</span>
-    </div>
-
-    <!-- Navbar -->
-    <nav class="sticky top-0 w-full z-50 px-6 py-4">
-        <div class="max-w-7xl mx-auto flex justify-between items-center glass px-6 py-3 rounded-2xl">
-            <div class="text-2xl font-extrabold tracking-tighter uppercase">
-                FLORI<span class="text-indigo-500">WEB</span>
+    <!-- BARRE DE NAVIGATION (FIXE) -->
+    <nav class="glass-nav h-[70px] flex-shrink-0 flex items-center z-50">
+        <div class="max-w-7xl mx-auto w-full flex justify-between items-center px-6">
+            <div class="text-xl font-black text-indigo-500 tracking-tighter uppercase">
+                FLORI<span class="text-white">WEB</span>
             </div>
             
-            <div class="hidden lg:flex space-x-8 font-bold text-[10px] uppercase tracking-widest text-gray-400">
-                <a href="#home" class="hover:text-white transition">Accueil</a>
-                <a href="#about" class="hover:text-white transition">À Propos</a>
-                <a href="#services" class="hover:text-white transition">Services</a>
-                <a href="#portfolio" class="hover:text-white transition">Portfolio</a>
-            </div>
-
-            <div class="flex items-center space-x-4">
-                <div class="flex space-x-2 text-[10px] font-bold border-r border-white/10 pr-4">
-                    <span onclick="toggleLanguage('fr')" id="lang-fr" class="cursor-pointer text-indigo-400">FR</span>
-                    <span onclick="toggleLanguage('en')" id="lang-en" class="cursor-pointer hover:text-indigo-400 transition">EN</span>
-                </div>
-                <a href="https://wa.me/243974437449" class="bg-indigo-600 hover:bg-indigo-500 px-6 py-2 rounded-full text-[10px] font-bold uppercase transition">WhatsApp</a>
+            <!-- Menu -->
+            <div class="flex items-center space-x-1 md:space-x-4">
+                <button onclick="openPage('home')" id="btn-home" class="nav-link text-[10px] md:text-xs font-bold uppercase tracking-widest px-2 py-1 transition">Accueil</button>
+                <button onclick="openPage('about')" id="btn-about" class="nav-link text-[10px] md:text-xs font-bold uppercase tracking-widest px-2 py-1 transition">À Propos</button>
+                <button onclick="openPage('services')" id="btn-services" class="nav-link text-[10px] md:text-xs font-bold uppercase tracking-widest px-2 py-1 transition">Services</button>
+                <button onclick="openPage('portfolio')" id="btn-portfolio" class="nav-link text-[10px] md:text-xs font-bold uppercase tracking-widest px-2 py-1 transition">Portfolio</button>
+                <button onclick="openPage('contact')" id="btn-contact" class="hidden md:block bg-indigo-600 px-4 py-2 rounded-lg text-[10px] font-bold uppercase tracking-widest">Contact</button>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section id="home" class="relative min-h-screen flex items-center pt-10">
-        <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
-            <div data-aos="fade-right">
-                <h1 class="text-5xl md:text-7xl font-extrabold leading-tight mb-8">
-                    <span data-i18n="hero-1">Ne vous contentez pas d'un site,</span><br>
-                    <span class="gradient-text" data-i18n="hero-2">dominez votre marché.</span>
+    <!-- ZONE DE CONTENU -->
+    <main class="flex-grow relative">
+
+        <!-- PAGE : ACCUEIL -->
+        <section id="home" class="page-content active">
+            <div class="max-w-4xl mx-auto text-center pt-10">
+                <h1 class="text-4xl md:text-7xl font-extrabold leading-tight mb-6">
+                    Ne vous contentez pas d'un site, <br>
+                    <span class="text-indigo-500">dominez votre marché.</span>
                 </h1>
-                <p class="text-gray-400 text-lg md:text-xl mb-10 leading-relaxed max-w-xl" data-i18n="hero-sub">
-                    Expert en développement, je conçois des plateformes qui transforment vos visiteurs en clients fidèles.
+                <p class="text-gray-400 text-lg md:text-xl mb-12 max-w-2xl mx-auto">
+                    Flori Web Studio crée des plateformes digitales haut de gamme alliant Intelligence Artificielle et design futuriste.
                 </p>
-                <div class="flex flex-wrap gap-5">
-                    <a href="https://wa.me/243974437449" class="bg-white text-black px-10 py-4 rounded-2xl font-extrabold text-lg hover:bg-indigo-500 hover:text-white transition-all duration-300">Démarrer maintenant</a>
+                <div class="flex flex-col md:flex-row justify-center gap-4">
+                    <button onclick="openPage('portfolio')" class="bg-indigo-600 px-10 py-4 rounded-2xl font-bold text-lg hover:bg-indigo-500 transition">Découvrir mes projets</button>
+                    <button onclick="openPage('contact')" class="border border-white/20 px-10 py-4 rounded-2xl font-bold hover:bg-white/5 transition">Me contacter</button>
                 </div>
             </div>
+        </section>
 
-            <!-- Image unique de Floribert -->
-            <div class="relative" data-aos="fade-left">
-                <div class="hero-img-box max-w-sm mx-auto">
-                    <img src="input_file_2.png" alt="Floribert - Expert Web" class="w-full h-auto">
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#020205] to-transparent opacity-60"></div>
-                    <div class="absolute bottom-6 left-6">
-                        <p class="text-xl font-black">Floribert J.</p>
-                        <p class="text-indigo-400 font-mono text-xs uppercase">Lead Developer & IA Expert</p>
+        <!-- PAGE : À PROPOS -->
+        <section id="about" class="page-content">
+            <div class="max-w-4xl mx-auto pt-10">
+                <h2 class="text-3xl md:text-5xl font-extrabold mb-10 text-center uppercase">À Propos</h2>
+                <div class="space-y-6 text-gray-300 text-lg md:text-xl leading-relaxed">
+                    <div class="border-l-4 border-indigo-500 pl-6 py-2">
+                        <p>Chez Flori Web Studio, nous créons des sites web modernes, professionnels et performants grâce à l’intelligence artificielle et aux dernières technologies du web.</p>
+                    </div>
+                    <p>Notre mission est d’aider les entreprises, entrepreneurs, boutiques, églises et écoles à développer leur présence en ligne avec des sites attractifs, rapides et optimisés.</p>
+                    <p class="text-white font-bold bg-indigo-600/10 p-4 rounded-xl">Nous combinons créativité, innovation et stratégie digitale pour livrer des sites web qui attirent des clients et augmentent la visibilité de votre activité.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE : SERVICES -->
+        <section id="services" class="page-content">
+            <div class="max-w-6xl mx-auto pt-10">
+                <h2 class="text-3xl md:text-5xl font-extrabold mb-12 text-center uppercase">Nos Services</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="card-service text-center"><i data-lucide="layout" class="mx-auto mb-4 text-indigo-500"></i><h3 class="font-bold">Sites Vitrines</h3><p class="text-xs text-gray-500 mt-2">Présentez votre activité avec élégance.</p></div>
+                    <div class="card-service text-center"><i data-lucide="shopping-cart" class="mx-auto mb-4 text-indigo-500"></i><h3 class="font-bold">E-commerce</h3><p class="text-xs text-gray-500 mt-2">Vendez vos produits en toute sécurité.</p></div>
+                    <div class="card-service text-center"><i data-lucide="zap" class="mx-auto mb-4 text-indigo-500"></i><h3 class="font-bold">Landing Pages</h3><p class="text-xs text-gray-500 mt-2">Maximisez vos conversions de clients.</p></div>
+                    <div class="card-service text-center"><i data-lucide="refresh-cw" class="mx-auto mb-4 text-indigo-500"></i><h3 class="font-bold">Refonte Web</h3><p class="text-xs text-gray-500 mt-2">Modernisez votre ancien site web.</p></div>
+                    <div class="card-service text-center"><i data-lucide="bot" class="mx-auto mb-4 text-indigo-500"></i><h3 class="font-bold">Sites Assistés par IA</h3><p class="text-xs text-gray-500 mt-2">Vitesse de création révolutionnaire.</p></div>
+                    <div class="card-service text-center"><i data-lucide="smartphone" class="mx-auto mb-4 text-indigo-500"></i><h3 class="font-bold">Design Responsive</h3><p class="text-xs text-gray-500 mt-2">Adapté aux iPhones et Android.</p></div>
+                    <div class="card-service text-center"><i data-lucide="search" class="mx-auto mb-4 text-indigo-500"></i><h3 class="font-bold">Optimisation SEO</h3><p class="text-xs text-gray-500 mt-2">Soyez premier sur Google.</p></div>
+                    <div class="card-service text-center"><i data-lucide="settings" class="mx-auto mb-4 text-indigo-500"></i><h3 class="font-bold">Maintenance</h3><p class="text-xs text-gray-500 mt-2">Support technique et mises à jour.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE : PORTFOLIO -->
+        <section id="portfolio" class="page-content">
+            <div class="max-w-6xl mx-auto pt-10 px-4">
+                <h2 class="text-3xl md:text-5xl font-extrabold mb-12 text-center uppercase">Réalisations</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Projet 1 -->
+                    <div class="card-service border-l-4 border-indigo-500">
+                        <h3 class="text-2xl font-bold mb-2">Luxe Gastronomie</h3>
+                        <p class="text-gray-400 mb-6">Site web complet pour restaurant de luxe avec menu interactif et réservation WhatsApp.</p>
+                        <a href="https://github.com/floribertflori1-dot" target="_blank" class="inline-flex items-center gap-2 text-indigo-400 font-bold uppercase text-xs tracking-widest">Voir le projet <i data-lucide="external-link" class="w-4 h-4"></i></a>
+                    </div>
+                    <!-- Projet 2 -->
+                    <div class="card-service border-l-4 border-indigo-500">
+                        <h3 class="text-2xl font-bold mb-2">Nova School Portal</h3>
+                        <p class="text-gray-400 mb-6">Portail digital éducatif pour la gestion des informations scolaires en temps réel.</p>
+                        <a href="https://github.com/floribertflori1-dot" target="_blank" class="inline-flex items-center gap-2 text-indigo-400 font-bold uppercase text-xs tracking-widest">Voir le projet <i data-lucide="external-link" class="w-4 h-4"></i></a>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Section À Propos -->
-    <section id="about" class="py-24 px-6 bg-[#04040a]">
-        <div class="max-w-4xl mx-auto text-center" data-aos="fade-up">
-            <h2 class="text-4xl font-bold mb-10 uppercase tracking-tighter" data-i18n="about-title">À Propos de Nous</h2>
-            <div class="space-y-6 text-gray-300 text-lg leading-relaxed">
-                <p data-i18n="about-1">Chez Flori Web Studio, nous créons des sites web modernes, professionnels et performants grâce à l’intelligence artificielle et aux dernières technologies du web.</p>
-                <p data-i18n="about-2">Notre mission est d’aider les entreprises, entrepreneurs, boutiques, églises et écoles à développer leur présence en ligne avec des sites attractifs, rapides et optimisés.</p>
-                <p data-i18n="about-3" class="text-white font-bold italic">"Nous combinons créativité, innovation et stratégie digitale pour livrer des sites web qui attirent des clients et augmentent la visibilité de votre activité."</p>
+        <!-- PAGE : CONTACT -->
+        <section id="contact" class="page-content">
+            <div class="max-w-3xl mx-auto pt-10 text-center">
+                <h2 class="text-3xl md:text-5xl font-extrabold mb-12 uppercase">Démarrons un projet</h2>
+                <div class="space-y-6">
+                    <a href="https://wa.me/243974437449" class="block bg-[#25D366] p-8 rounded-3xl text-2xl font-black hover:scale-105 transition duration-300">
+                        WHATSAPP DIRECT
+                    </a>
+                    <a href="mailto:floribertjean1@gmail.com" class="block bg-white text-black p-8 rounded-3xl text-xl font-bold hover:scale-105 transition duration-300">
+                        floribertjean1@gmail.com
+                    </a>
+                </div>
+                <p class="mt-24 text-gray-600 font-mono text-[10px] uppercase tracking-widest">© 2024 Flori Web Studio | Precision Development</p>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Section Services (Les 8 Services) -->
-    <section id="services" class="py-24 px-6">
-        <div class="max-w-7xl mx-auto">
-            <h2 class="text-center text-4xl font-bold mb-16 uppercase" data-i18n="nav-services">Nos Services</h2>
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- S1 -->
-                <div class="glass p-8 rounded-3xl port-card">
-                    <i data-lucide="globe" class="text-indigo-500 mb-4"></i>
-                    <h3 class="font-bold mb-2" data-i18n="s1-t">Sites Vitrines</h3>
-                    <p class="text-gray-500 text-xs" data-i18n="s1-d">Des sites professionnels pour présenter votre activité et attirer des clients.</p>
-                </div>
-                <!-- S2 -->
-                <div class="glass p-8 rounded-3xl port-card">
-                    <i data-lucide="shopping-cart" class="text-indigo-500 mb-4"></i>
-                    <h3 class="font-bold mb-2" data-i18n="s2-t">E-commerce</h3>
-                    <p class="text-gray-500 text-xs" data-i18n="s2-d">Vendez vos produits en ligne avec une boutique moderne et sécurisée.</p>
-                </div>
-                <!-- S3 -->
-                <div class="glass p-8 rounded-3xl port-card">
-                    <i data-lucide="zap" class="text-indigo-500 mb-4"></i>
-                    <h3 class="font-bold mb-2" data-i18n="s3-t">Landing Pages</h3>
-                    <p class="text-gray-500 text-xs" data-i18n="s3-d">Des pages conçues pour convertir vos visiteurs en clients.</p>
-                </div>
-                <!-- S4 -->
-                <div class="glass p-8 rounded-3xl port-card">
-                    <i data-lucide="refresh-cw" class="text-indigo-500 mb-4"></i>
-                    <h3 class="font-bold mb-2" data-i18n="s4-t">Refonte de sites</h3>
-                    <p class="text-gray-500 text-xs" data-i18n="s4-d">Modernisation et amélioration de votre site existant.</p>
-                </div>
-                <!-- S5 -->
-                <div class="glass p-8 rounded-3xl port-card">
-                    <i data-lucide="bot" class="text-indigo-500 mb-4"></i>
-                    <h3 class="font-bold mb-2" data-i18n="s5-t">Sites Assistés par IA</h3>
-                    <p class="text-gray-500 text-xs" data-i18n="s5-d">Des sites innovants créés rapidement grâce à l’IA.</p>
-                </div>
-                <!-- S6 -->
-                <div class="glass p-8 rounded-3xl port-card">
-                    <i data-lucide="smartphone" class="text-indigo-500 mb-4"></i>
-                    <h3 class="font-bold mb-2" data-i18n="s6-t">Design Responsive</h3>
-                    <p class="text-gray-500 text-xs" data-i18n="s6-d">Sites adaptés aux téléphones, tablettes et ordinateurs.</p>
-                </div>
-                <!-- S7 -->
-                <div class="glass p-8 rounded-3xl port-card">
-                    <i data-lucide="search" class="text-indigo-500 mb-4"></i>
-                    <h3 class="font-bold mb-2" data-i18n="s7-t">Optimisation SEO</h3>
-                    <p class="text-gray-500 text-xs" data-i18n="s7-d">Amélioration de votre visibilité sur Google.</p>
-                </div>
-                <!-- S8 -->
-                <div class="glass p-8 rounded-3xl port-card">
-                    <i data-lucide="settings" class="text-indigo-500 mb-4"></i>
-                    <h3 class="font-bold mb-2" data-i18n="s8-t">Maintenance</h3>
-                    <p class="text-gray-500 text-xs" data-i18n="s8-d">Assistance technique et mises à jour régulières.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+    </main>
 
-    <!-- Section Portfolio -->
-    <section id="portfolio" class="py-24 px-6 bg-[#04040a]">
-        <div class="max-w-7xl mx-auto">
-            <h2 class="text-center text-4xl font-bold mb-16 uppercase" data-i18n="nav-portfolio">Nos Réalisations</h2>
-            <div class="grid md:grid-cols-2 gap-8">
-                <!-- Projet 1 -->
-                <div class="glass p-10 rounded-[40px] port-card">
-                    <div class="text-indigo-500 font-mono text-xs mb-4">01. Gastronomie</div>
-                    <h3 class="text-2xl font-bold mb-4" data-i18n="p1-t">Site Web Restaurant</h3>
-                    <p class="text-gray-400 text-sm mb-6" data-i18n="p1-d">Une plateforme élégante avec menu digital et système de réservation en ligne pour une expérience culinaire unique.</p>
-                    <div class="h-1 w-full bg-white/5 rounded-full overflow-hidden"><div class="h-full bg-indigo-500 w-full"></div></div>
-                </div>
-                <!-- Projet 2 -->
-                <div class="glass p-10 rounded-[40px] port-card">
-                    <div class="text-indigo-500 font-mono text-xs mb-4">02. Communauté</div>
-                    <h3 class="text-2xl font-bold mb-4" data-i18n="p2-t">Site Web pour Église</h3>
-                    <p class="text-gray-400 text-sm mb-6" data-i18n="p2-d">Espace digital dédié à la diffusion de messages, gestion d'événements et connexion avec les membres de la communauté.</p>
-                    <div class="h-1 w-full bg-white/5 rounded-full overflow-hidden"><div class="h-full bg-indigo-500 w-full"></div></div>
-                </div>
-                <!-- Projet 3 -->
-                <div class="glass p-10 rounded-[40px] port-card">
-                    <div class="text-indigo-500 font-mono text-xs mb-4">03. Commerce</div>
-                    <h3 class="text-2xl font-bold mb-4" data-i18n="p3-t">Boutique de Mode</h3>
-                    <p class="text-gray-400 text-sm mb-6" data-i18n="p3-d">E-commerce moderne avec gestion de stock, paiements sécurisés et catalogue visuel interactif pour booster vos ventes.</p>
-                    <div class="h-1 w-full bg-white/5 rounded-full overflow-hidden"><div class="h-full bg-indigo-500 w-full"></div></div>
-                </div>
-                <!-- Projet 4 -->
-                <div class="glass p-10 rounded-[40px] port-card">
-                    <div class="text-indigo-500 font-mono text-xs mb-4">04. Éducation</div>
-                    <h3 class="text-2xl font-bold mb-4" data-i18n="p4-t">Site Web pour École</h3>
-                    <p class="text-gray-400 text-sm mb-6" data-i18n="p4-d">Portail éducatif complet pour la présentation de l'établissement, les annonces et le suivi des activités scolaires.</p>
-                    <div class="h-1 w-full bg-white/5 rounded-full overflow-hidden"><div class="h-full bg-indigo-500 w-full"></div></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer id="contact" class="py-20 px-6 border-t border-white/5">
-        <div class="max-w-4xl mx-auto text-center">
-            <h2 class="text-3xl font-bold mb-10">floribertjean1@gmail.com</h2>
-            <a href="https://wa.me/243974437449" class="bg-green-600 hover:bg-green-500 px-10 py-5 rounded-2xl font-bold inline-flex items-center gap-3 transition">
-                <i data-lucide="message-circle"></i> +243 974 437 449
-            </a>
-            <p class="mt-16 text-gray-600 text-[10px] font-mono uppercase tracking-widest italic">Flori Web Studio - Design & Code de Précision</p>
-        </div>
-    </footer>
-
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- SCRIPTS -->
     <script>
-        AOS.init({ duration: 1000, once: true });
+        // Initialisation des icônes
         lucide.createIcons();
 
-        const translations = {
-            fr: {
-                "top-msg": "Propulsez votre business au niveau supérieur avec un site web d'exception",
-                "hero-1": "Ne vous contentez pas d'un site,",
-                "hero-2": "dominez votre marché.",
-                "hero-sub": "Expert en développement, je conçois des plateformes qui transforment vos visiteurs en clients fidèles.",
-                "about-title": "À Propos de Nous",
-                "about-1": "Chez Flori Web Studio, nous créons des sites web modernes, professionnels et performants grâce à l’intelligence artificielle et aux dernières technologies du web.",
-                "about-2": "Notre mission est d’aider les entreprises, entrepreneurs, boutiques, églises et écoles à développer leur présence en ligne avec des sites attractifs, rapides et optimisés.",
-                "about-3": "Nous combinons créativité, innovation et stratégie digitale pour livrer des sites web qui attirent des clients et augmentent la visibilité de votre activité.",
-                "s1-t": "Sites Vitrines", "s1-d": "Sites pro pour présenter votre activité.",
-                "s2-t": "E-commerce", "s2-d": "Boutiques modernes et sécurisées.",
-                "s3-t": "Landing Pages", "s3-d": "Convertissez vos visiteurs en clients.",
-                "s4-t": "Refonte Web", "s4-d": "Modernisation de site existant.",
-                "s5-t": "IA Assistée", "s5-d": "Innovation rapide grâce à l'IA.",
-                "s6-t": "Responsive", "s6-d": "Adapté à tous les écrans.",
-                "s7-t": "SEO", "s7-d": "Visibilité maximale sur Google.",
-                "s8-t": "Maintenance", "s8-d": "Support et mises à jour.",
-                "p1-t": "Restaurant", "p1-d": "Menu digital et réservations.",
-                "p2-t": "Église", "p2-d": "Connexion communautaire et événements.",
-                "p3-t": "Mode", "p3-d": "E-commerce textile et gestion stock.",
-                "p4-t": "École", "p4-d": "Portail éducatif et suivi scolaire."
-            },
-            en: {
-                "top-msg": "Take your business to the next level with an exceptional website",
-                "hero-1": "Don't just get a website,",
-                "hero-2": "dominate your market.",
-                "hero-sub": "Expert developer creating platforms that turn visitors into loyal customers.",
-                "about-title": "About Us",
-                "about-1": "At Flori Web Studio, we create modern, professional, and high-performance websites using AI and the latest web tech.",
-                "about-2": "Our mission is to help businesses, entrepreneurs, shops, churches, and schools build their presence with optimized sites.",
-                "about-3": "We combine creativity and digital strategy to deliver websites that attract clients and increase visibility.",
-                "s1-t": "Showcase Sites", "s1-d": "Pro sites to present your activity.",
-                "s2-t": "E-commerce", "s2-d": "Modern and secure online stores.",
-                "s3-t": "Landing Pages", "s3-d": "Convert your visitors into buyers.",
-                "s4-t": "Redesign", "s4-d": "Modernizing existing websites.",
-                "s5-t": "AI Assisted", "s5-d": "Fast innovation through AI.",
-                "s6-t": "Responsive", "s6-d": "Optimized for all screens.",
-                "s7-t": "SEO", "s7-d": "Maximum visibility on Google.",
-                "s8-t": "Maintenance", "s8-d": "Support and regular updates.",
-                "p1-t": "Restaurant", "p1-d": "Digital menu and online booking.",
-                "p2-t": "Church", "p2-d": "Community connection and events.",
-                "p3-t": "Fashion", "p3-d": "Interactive e-commerce and stock management.",
-                "p4-t": "School", "p4-d": "Educational portal and school monitoring."
-            }
-        };
-
-        function toggleLanguage(lang) {
-            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('text-indigo-400'));
-            document.getElementById('lang-' + lang).classList.add('text-indigo-400');
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (translations[lang][key]) el.innerText = translations[lang][key];
+        // FONCTION DE NAVIGATION (CORRIGÉE)
+        function openPage(pageId) {
+            // 1. Masquer toutes les sections
+            const pages = document.querySelectorAll('.page-content');
+            pages.forEach(page => {
+                page.classList.remove('active');
             });
+
+            // 2. Afficher la section demandée
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
+
+            // 3. Gérer l'état visuel du menu
+            const links = document.querySelectorAll('.nav-link');
+            links.forEach(link => {
+                link.classList.remove('active-link');
+            });
+            const activeBtn = document.getElementById('btn-' + pageId);
+            if (activeBtn) {
+                activeBtn.classList.add('active-link');
+            }
         }
+
+        // Par défaut, activer le bouton accueil au chargement
+        window.onload = function() {
+            document.getElementById('btn-home').classList.add('active-link');
+        };
     </script>
 </body>
 </html>
