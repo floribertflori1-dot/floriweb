@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     
     <script>
+        // Configuration Tailwind personnalisée
         tailwind.config = {
             theme: {
                 extend: {
@@ -28,152 +29,318 @@
     </script>
 
     <style>
-        body { background-color: #050508; color: white; overflow-x: hidden; }
-        .glass-nav { background: rgba(5, 5, 8, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
-        .immersive-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); transition: all 0.5s ease; }
-        .immersive-card:hover { border-color: rgba(79, 70, 229, 0.4); background: rgba(255, 255, 255, 0.06); transform: translateY(-8px); }
+        /* Styles CSS Personnalisés pour le Design Futuriste */
+        body { 
+            background-color: #050508; 
+            color: white; 
+            overflow-x: hidden;
+        }
+        
+        .glass-nav {
+            background: rgba(5, 5, 8, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .immersive-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .immersive-card:hover {
+            border-color: rgba(79, 70, 229, 0.4);
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateY(-8px) scale(1.01);
+            box-shadow: 0 20px 40px -20px rgba(79, 70, 229, 0.3);
+        }
+
         .glow-indigo { background: radial-gradient(circle, rgba(79, 70, 229, 0.15) 0%, transparent 70%); }
-        .fade-in { animation: fadeIn 1s ease-out forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .glow-purple { background: radial-gradient(circle, rgba(147, 51, 234, 0.1) 0%, transparent 70%); }
+
+        .fade-in { 
+            animation: fadeIn 1s ease-out forwards; 
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Système de navigation par section */
         .page-section { display: none; }
         .page-section.active { display: block; }
+
+        /* Scrollbar stylisée */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #050508; }
+        ::-webkit-scrollbar-thumb { background: #1e1e2d; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #4f46e5; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col font-sans">
 
-    <!-- FOND LUMINEUX -->
+    <!-- EFFETS DE FOND (GLOWS) -->
     <div class="fixed top-[-10%] right-[-10%] w-[600px] h-[600px] glow-indigo rounded-full pointer-events-none z-0"></div>
+    <div class="fixed bottom-[-10%] left-[-10%] w-[500px] h-[500px] glow-purple rounded-full pointer-events-none z-0"></div>
 
-    <!-- NAVIGATION -->
+    <!-- NAVIGATION BAR -->
     <nav class="glass-nav h-[85px] sticky top-0 z-50 flex items-center px-6 md:px-12">
         <div class="max-w-7xl mx-auto w-full flex justify-between items-center">
-            <div onclick="navigateTo('home')" class="flex items-center gap-3 cursor-pointer">
-                <div class="w-10 h-10 bg-brand-indigo rounded-xl flex items-center justify-center rotate-45">
+            <!-- LOGO -->
+            <div onclick="navigateTo('home')" class="flex items-center gap-3 cursor-pointer group">
+                <div class="w-10 h-10 bg-brand-indigo rounded-xl flex items-center justify-center rotate-45 transition-transform group-hover:rotate-[135deg] shadow-[0_0_15px_rgba(79,70,229,0.4)]">
                     <div class="w-4 h-4 bg-white rounded-sm -rotate-45"></div>
                 </div>
                 <span class="text-2xl font-black uppercase tracking-tighter">FLORI<span class="text-brand-indigo">WEB</span></span>
             </div>
 
-            <div class="hidden md:flex items-center space-x-8 text-[11px] font-bold uppercase tracking-widest text-gray-400">
-                <button onclick="navigateTo('home')" class="hover:text-white transition-colors">Accueil</button>
-                <button onclick="navigateTo('services')" class="hover:text-white transition-colors">Services</button>
-                <button onclick="navigateTo('portfolio')" class="hover:text-white transition-colors">Portfolio</button>
-                <button onclick="navigateTo('contact')" class="hover:text-white transition-colors">Contact</button>
-                <button onclick="navigateTo('quote')" class="bg-brand-indigo text-white px-8 py-3 rounded-full hover:bg-opacity-80 transition-all font-black">DEVIS GRATUIT</button>
+            <div class="hidden md:flex items-center space-x-8 text-[10px] font-bold uppercase tracking-widest text-gray-400">
+                <button onclick="navigateTo('services')" class="nav-link hover:text-white transition-colors">Nos Services</button>
+                <button onclick="navigateTo('home')" class="nav-link hover:text-white transition-colors">Accueil</button>
+                <button onclick="navigateTo('about')" class="nav-link hover:text-white transition-colors">À Propos</button>
+                <button onclick="navigateTo('contact')" class="nav-link hover:text-white transition-colors">Contact</button>
+                <button onclick="navigateTo('portfolio')" class="nav-link hover:text-white transition-colors">Portfolio</button>
+                <button onclick="navigateTo('testimonials')" class="nav-link hover:text-white transition-colors">Témoignages</button>
+                <button onclick="navigateTo('quote')" class="bg-indigo-600 text-white px-8 py-3 rounded-full hover:bg-brand-indigo transition-all font-bold shadow-lg shadow-indigo-600/30">Devis Gratuit</button>
             </div>
+            
+            <!-- MOBILE TOGGLE -->
+            <button class="md:hidden p-2" onclick="toggleMobileMenu()">
+                <i data-lucide="menu" class="w-8 h-8"></i>
+            </button>
         </div>
     </nav>
 
-    <!-- CONTENU PRINCIPAL -->
+    <!-- MENU MOBILE -->
+    <div id="mobile-menu" class="fixed inset-0 z-[60] bg-[#050508] p-10 flex flex-col items-center justify-center space-y-8 hidden">
+        <button onclick="toggleMobileMenu()" class="absolute top-8 right-8"><i data-lucide="x" class="w-10 h-10"></i></button>
+        <button onclick="mobileNavigate('home')" class="text-4xl font-black uppercase tracking-tighter">Accueil</button>
+        <button onclick="mobileNavigate('services')" class="text-4xl font-black uppercase tracking-tighter">Nos Services</button>
+        <button onclick="mobileNavigate('about')" class="text-4xl font-black uppercase tracking-tighter">À Propos</button>
+        <button onclick="mobileNavigate('contact')" class="text-4xl font-black uppercase tracking-tighter">Contact</button>
+        <button onclick="mobileNavigate('portfolio')" class="text-4xl font-black uppercase tracking-tighter">Portfolio</button>
+        <button onclick="mobileNavigate('quote')" class="text-4xl font-black uppercase tracking-tighter text-brand-indigo">Obtenir un Devis</button>
+    </div>
+
+    <!-- MAIN SECTION CONTAINER -->
     <main class="flex-grow z-10 px-6 md:px-12 py-16">
         <div class="max-w-7xl mx-auto">
 
-            <!-- ACCUEIL -->
+            <!-- SECTION : ACCUEIL -->
             <section id="home" class="page-section active fade-in">
-                <div class="lg:col-span-8 space-y-10 pt-10">
-                    <h1 class="text-6xl md:text-8xl font-black leading-[0.9] tracking-tighter">
-                        Dominez le <br>
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-500">monde digital.</span>
-                    </h1>
-                    <p class="text-gray-400 text-xl md:text-2xl leading-relaxed max-w-2xl">
-                        Flori Web Studio crée des expériences immersives et ultra-performantes pour propulser votre business.
-                    </p>
-                    <div class="flex gap-6">
-                        <button onclick="navigateTo('quote')" class="bg-white text-black px-12 py-6 rounded-3xl font-black text-xl hover:bg-brand-indigo hover:text-white transition-all">LANCER MON PROJET</button>
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 pt-10 items-center">
+                    <div class="lg:col-span-12 space-y-10">
+                        <div class="inline-flex items-center gap-3 px-4 py-1.5 bg-brand-indigo/10 border border-brand-indigo/30 rounded-full">
+                            <span class="w-2.5 h-2.5 bg-brand-indigo rounded-full animate-pulse shadow-[0_0_10px_rgba(79,70,229,0.8)]"></span>
+                            <span class="text-[11px] font-black uppercase tracking-[0.3em] text-brand-indigo/90">L'Excellence Digitale du Futur</span>
+                        </div>
+                        <h1 class="text-6xl md:text-8xl lg:text-[110px] font-black leading-[0.9] tracking-tighter">
+                            Dominez votre marché <br>
+                            <span class="text-transparent bg-clip-text bg-gradient-to-br from-white via-indigo-400 to-purple-500">avec Flori Web.</span>
+                        </h1>
+                        <p class="text-gray-400 text-lg md:text-2xl leading-relaxed max-w-4xl font-medium">
+                            On ne se contente pas de faire du web. Flori Web Studio forge des armures numériques haute performance pour les visionnaires qui veulent marquer l'histoire.
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-6 pt-10">
+                            <button onclick="navigateTo('portfolio')" class="bg-white text-black px-12 py-6 rounded-3xl font-black text-xl flex items-center justify-center gap-4 hover:bg-brand-indigo hover:text-white transition-all shadow-xl group">
+                                EXPLORER PORTFOLIO <i data-lucide="arrow-right" class="w-6 h-6 group-hover:translate-x-2 transition-transform"></i>
+                            </button>
+                            <button onclick="navigateTo('quote')" class="border-2 border-white/10 px-12 py-6 rounded-3xl font-black text-xl hover:bg-white/5 transition-all">DEVIS GRATUIT</button>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            <!-- SERVICES -->
+            <!-- SECTION : SERVICES -->
             <section id="services" class="page-section fade-in">
-                <h2 class="text-5xl font-black text-center mb-16 uppercase italic">Expertises</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center mb-20">
+                    <h2 class="text-5xl md:text-[80px] font-black uppercase tracking-tighter italic leading-none mb-6">Expertises</h2>
+                    <p class="text-indigo-400 font-bold uppercase tracking-[0.5em] text-xs">Propulsé par la performance IA</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                     <div class="immersive-card p-12 rounded-[50px] text-center">
-                        <i data-lucide="layout" class="w-12 h-12 text-brand-indigo mx-auto mb-6"></i>
-                        <h3 class="font-black text-2xl mb-2">Web Design Pro</h3>
-                        <p class="text-gray-500 text-sm">Interfaces futuristes et intuitives.</p>
+                        <div class="w-16 h-16 bg-brand-indigo/10 rounded-2xl flex items-center justify-center mx-auto mb-8">
+                            <i data-lucide="layout" class="w-8 h-8 text-brand-indigo"></i>
+                        </div>
+                        <h3 class="font-black text-2xl mb-3 tracking-tight">Vitrines Pro</h3>
+                        <p class="text-[10px] text-gray-400 uppercase tracking-widest font-black leading-relaxed">Représentation & Acquisition Client</p>
                     </div>
                     <div class="immersive-card p-12 rounded-[50px] text-center">
-                        <i data-lucide="shopping-cart" class="w-12 h-12 text-brand-indigo mx-auto mb-6"></i>
-                        <h3 class="font-black text-2xl mb-2">E-Commerce</h3>
-                        <p class="text-gray-500 text-sm">Boostez vos ventes en ligne.</p>
+                        <div class="w-16 h-16 bg-brand-indigo/10 rounded-2xl flex items-center justify-center mx-auto mb-8">
+                            <i data-lucide="shopping-bag" class="w-8 h-8 text-brand-indigo"></i>
+                        </div>
+                        <h3 class="font-black text-2xl mb-3 tracking-tight">E-Commerce</h3>
+                        <p class="text-[10px] text-gray-400 uppercase tracking-widest font-black leading-relaxed">Ventes Scalables & Sécurisées</p>
                     </div>
                     <div class="immersive-card p-12 rounded-[50px] text-center">
-                        <i data-lucide="zap" class="w-12 h-12 text-brand-indigo mx-auto mb-6"></i>
-                        <h3 class="font-black text-2xl mb-2">IA & Automation</h3>
-                        <p class="text-gray-500 text-sm">Gagnez du temps avec l'IA.</p>
+                        <div class="w-16 h-16 bg-brand-indigo/10 rounded-2xl flex items-center justify-center mx-auto mb-8">
+                            <i data-lucide="zap" class="w-8 h-8 text-brand-indigo"></i>
+                        </div>
+                        <h3 class="font-black text-2xl mb-3 tracking-tight">Sites Virtuels</h3>
+                        <p class="text-[10px] text-gray-400 uppercase tracking-widest font-black leading-relaxed">Expériences Immersives 3D</p>
+                    </div>
+                    <div class="immersive-card p-12 rounded-[50px] text-center">
+                        <div class="w-16 h-16 bg-brand-indigo/10 rounded-2xl flex items-center justify-center mx-auto mb-8">
+                            <i data-lucide="cpu" class="w-8 h-8 text-brand-indigo"></i>
+                        </div>
+                        <h3 class="font-black text-2xl mb-3 tracking-tight">IA & SEO</h3>
+                        <p class="text-[10px] text-gray-400 uppercase tracking-widest font-black leading-relaxed">Automatisation & Top Ranking</p>
                     </div>
                 </div>
             </section>
 
-            <!-- PORTFOLIO -->
+            <!-- SECTION : PORTFOLIO -->
             <section id="portfolio" class="page-section fade-in">
-                <h2 class="text-5xl font-black text-center mb-16 uppercase">Réalisations</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-                    <div class="immersive-card p-12 rounded-[50px] border-l-8 border-l-brand-indigo">
-                        <h3 class="text-3xl font-black">Luxe Resto</h3>
-                        <p class="text-gray-400 mt-4">Site immersif avec réservation WhatsApp.</p>
-                    </div>
-                    <div class="immersive-card p-12 rounded-[50px] border-l-8 border-l-brand-indigo">
-                        <h3 class="text-3xl font-black">Nova Portal</h3>
-                        <p class="text-gray-400 mt-4">Gestion académique nouvelle génération.</p>
-                    </div>
+                <div class="text-center mb-20">
+                    <h2 class="text-5xl md:text-[80px] font-black uppercase tracking-tighter italic leading-none mb-6">Portfolio</h2>
+                    <p class="text-indigo-400 font-bold uppercase tracking-[0.5em] text-xs">Nos catégories de réalisation</p>
+                </div>
+                
+                <div id="p-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Généré par JavaScript -->
                 </div>
             </section>
 
-            <!-- DEVIS GRATUIT -->
+            <!-- SECTION : TÉMOIGNAGES -->
+            <section id="testimonials" class="page-section fade-in">
+                <h2 class="text-5xl md:text-7xl font-black text-center mb-20 uppercase tracking-tighter">Témoignages</h2>
+                <div id="t-list" class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-24">
+                    <!-- Généré par JavaScript -->
+                </div>
+
+                <!-- Formulaire d'Avis -->
+                <div class="max-w-3xl mx-auto immersive-card p-14 rounded-[60px] border-indigo-500/10">
+                    <h3 class="text-3xl font-black text-center mb-12 uppercase tracking-tighter italic">Partager votre expérience</h3>
+                    <form onsubmit="handleTestimonial(event)" class="space-y-8">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <input id="name" required placeholder="Votre Nom" class="w-full bg-white/5 border border-white/10 p-5 rounded-3xl outline-none focus:border-brand-indigo transition-all font-bold">
+                            <input id="company" required placeholder="Votre Entreprise" class="w-full bg-white/5 border border-white/10 p-5 rounded-3xl outline-none focus:border-brand-indigo transition-all font-bold">
+                        </div>
+                        <textarea id="quote-text" required placeholder="Votre message pour Flori Web Studio..." class="w-full bg-white/5 border border-white/10 p-5 rounded-3xl outline-none h-40 focus:border-brand-indigo transition-all font-bold"></textarea>
+                        <button type="submit" class="w-full bg-brand-indigo py-6 rounded-3xl font-black text-xl hover:bg-brand-indigo/80 transition-all shadow-[0_20px_40px_rgba(79,70,229,0.3)]">PUBLIER MON TÉMOIGNAGE</button>
+                    </form>
+                    <div id="t-notif" class="hidden text-center mt-8 text-green-400 font-black text-lg animate-pulse uppercase tracking-widest">Merci ! Avis publié avec succès.</div>
+                </div>
+            </section>
+
+            <!-- SECTION : DEVIS (QUOTE) -->
             <section id="quote" class="page-section fade-in">
                 <div class="max-w-3xl mx-auto">
-                    <h2 class="text-5xl font-black text-center mb-12 uppercase italic">DEVIS EXPRESS</h2>
-                    <div id="quote-form-container" class="immersive-card p-12 rounded-[50px]">
+                    <h2 class="text-4xl md:text-7xl font-black text-center mb-4 tracking-tighter uppercase italic">DEVIS EXPRESS</h2>
+                    <p class="text-center text-gray-500 uppercase tracking-[0.4em] text-[10px] mb-12">Gratuit & Sans engagement</p>
+                    
+                    <div id="quote-form-container" class="immersive-card p-12 rounded-[50px] border-indigo-500/10">
                         <form onsubmit="submitQuote(event)" class="space-y-8">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <input id="q-name" required placeholder="Votre Nom" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl outline-none focus:border-brand-indigo transition-all">
-                                <input id="q-email" required type="email" placeholder="Email" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl outline-none focus:border-brand-indigo transition-all">
+                                <div class="space-y-2">
+                                    <label class="text-[9px] uppercase font-bold tracking-widest text-gray-500 ml-4">Nom Complet</label>
+                                    <input id="q-name" required placeholder="Jean Dupont" class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl outline-none focus:border-brand-indigo text-white font-bold">
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="text-[9px] uppercase font-bold tracking-widest text-gray-500 ml-4">Email Pro</label>
+                                    <input id="q-email" required type="email" placeholder="contact@pro.com" class="w-full bg-white/5 border border-white/10 p-4 rounded-2xl outline-none focus:border-brand-indigo text-white font-bold">
+                                </div>
                             </div>
-                            <select id="q-budget" required class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl outline-none text-white font-bold">
-                                <option value="" class="bg-black">Budget en Dollars ($)</option>
-                                <option value="50" class="bg-black">Start-up : -50$</option>
-                                <option value="150" class="bg-black">Standard : 50$ - 150$</option>
-                                <option value="250" class="bg-black">Pro : Jusqu'à 250$</option>
-                            </select>
-                            <textarea id="q-vision" required placeholder="Décrivez votre projet..." class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl outline-none h-40 focus:border-brand-indigo transition-all"></textarea>
-                            <button type="submit" class="w-full bg-brand-indigo py-6 rounded-3xl font-black text-xl hover:bg-indigo-500 transition-all">ENVOYER MA DEMANDE</button>
+                            
+                            <div class="space-y-2">
+                                <label class="text-[9px] uppercase font-bold tracking-widest text-gray-500 ml-4">Budget en Dollars ($)</label>
+                                <select id="q-budget" required class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl outline-none appearance-none cursor-pointer focus:border-brand-indigo text-white font-bold">
+                                    <option value="" class="bg-[#050508]">Sélectionnez votre budget...</option>
+                                    <option value="50" class="bg-[#050508]">Moins de 50 $</option>
+                                    <option value="150" class="bg-[#050508]">50 $ - 150 $</option>
+                                    <option value="250" class="bg-[#050508]">Jusqu'à 250 $</option>
+                                </select>
+                            </div>
+
+                            <div class="space-y-2">
+                                <label class="text-[9px] uppercase font-bold tracking-widest text-gray-500 ml-4">Votre Vision / Besoins</label>
+                                <textarea id="q-vision" required placeholder="Décrivez votre projet (ex: Boutique Shopify, Site pour église, etc...)" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl outline-none h-40 focus:border-brand-indigo text-white font-bold"></textarea>
+                            </div>
+
+                            <button type="submit" class="w-full bg-indigo-600 text-white py-5 rounded-[24px] font-black text-xl hover:bg-brand-indigo transition-all shadow-2xl flex items-center justify-center gap-4">
+                                ENVOYER MA DEMANDE <i data-lucide="send" class="w-6 h-6"></i>
+                            </button>
                         </form>
                     </div>
-                    <div id="quote-success" class="hidden text-center p-20 immersive-card rounded-[50px]">
-                        <i data-lucide="check-circle" class="w-20 h-20 text-green-500 mx-auto mb-6"></i>
-                        <h3 class="text-4xl font-black mb-4 uppercase">DEMANDE REÇUE !</h3>
-                        <p class="text-gray-400">Nous analysons votre vision et revenons vers vous sous 24h.</p>
-                        <button onclick="navigateTo('home')" class="mt-10 text-brand-indigo font-bold border-b border-brand-indigo">Retour à l'accueil</button>
+
+                    <div id="quote-success" class="hidden text-center p-20 immersive-card rounded-[50px] fade-in border-green-500/20">
+                        <i data-lucide="check-circle" class="w-20 h-20 text-green-500 mx-auto mb-8"></i>
+                        <h3 class="text-4xl font-black mb-4">DEMANDE ENVOYÉE !</h3>
+                        <p class="text-gray-400 text-lg font-bold">Flori analyse votre vision et vous répondra sous 24h maximum.</p>
+                        <button onclick="navigateTo('home')" class="mt-12 text-brand-indigo font-bold uppercase tracking-widest border-b border-brand-indigo">Retour à l'accueil</button>
                     </div>
                 </div>
             </section>
 
-            <!-- CONTACT -->
+            <!-- SECTION : CONTACT -->
             <section id="contact" class="page-section fade-in">
                 <div class="max-w-4xl mx-auto">
-                    <h2 class="text-5xl font-black text-center mb-16 uppercase italic">CONTACT</h2>
+                    <h2 class="text-5xl md:text-8xl font-black text-center mb-16 uppercase tracking-tighter italic">CONTACT</h2>
+                    
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-                        <div class="space-y-6">
-                            <div class="immersive-card p-10 rounded-[40px]">
-                                <h3 class="text-2xl font-black mb-6 text-brand-indigo">Canaux Directs</h3>
-                                <a href="https://wa.me/243974437449" target="_blank" class="flex items-center gap-4 mb-4">
-                                    <div class="w-12 h-12 bg-green-500/10 rounded-xl flex items-center justify-center text-green-500"><i data-lucide="message-square"></i></div>
-                                    <div><p class="text-xs text-gray-500">WhatsApp</p><p class="font-bold">+243 974 437 449</p></div>
-                                </a>
-                                <a href="mailto:floribertjean1@gmail.com" class="flex items-center gap-4">
-                                    <div class="w-12 h-12 bg-indigo-500/10 rounded-xl flex items-center justify-center text-indigo-500"><i data-lucide="mail"></i></div>
-                                    <div><p class="text-xs text-gray-500">Email</p><p class="font-bold">floribertjean1@gmail.com</p></div>
-                                </a>
+                        <div class="space-y-8">
+                            <div class="immersive-card p-10 rounded-[40px] border-indigo-500/10">
+                                <h3 class="text-2xl font-black mb-6 uppercase tracking-tight text-indigo-400">Canaux Directs</h3>
+                                <div class="space-y-6">
+                                    <a href="https://wa.me/243974437449" target="_blank" class="flex items-center gap-4 group">
+                                        <div class="w-12 h-12 bg-green-500/10 rounded-2xl flex items-center justify-center text-green-500 shadow-[0_0_15px_rgba(34,197,94,0.2)] group-hover:scale-110 transition-transform">
+                                            <i data-lucide="message-square"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-[10px] uppercase font-bold text-gray-500">WhatsApp</p>
+                                            <p class="font-bold">+243 974 437 449</p>
+                                        </div>
+                                    </a>
+                                    <a href="mailto:floribertjean@gmail.com" class="flex items-center gap-4 group">
+                                        <div class="w-12 h-12 bg-indigo-500/10 rounded-2xl flex items-center justify-center text-indigo-500 shadow-[0_0_15px_rgba(79,70,229,0.2)] group-hover:scale-110 transition-transform">
+                                            <i data-lucide="mail"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-[10px] uppercase font-bold text-gray-500">Email Officiel</p>
+                                            <p class="font-bold">floribertjean@gmail.com</p>
+                                        </div>
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                        <form onsubmit="event.preventDefault(); alert('Message envoyé !'); this.reset();" class="immersive-card p-10 rounded-[40px] space-y-6">
-                            <h3 class="text-2xl font-black mb-4">Message Rapide</h3>
-                            <input required placeholder="Nom" class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl outline-none focus:border-brand-indigo">
-                            <textarea required placeholder="Votre besoin..." class="w-full bg-white/5 border border-white/10 p-5 rounded-2xl outline-none h-32 focus:border-brand-indigo"></textarea>
-                            <button type="submit" class="w-full bg-white text-black py-4 rounded-xl font-bold">ENVOYER</button>
-                        </form>
+
+                        <div class="immersive-card p-10 rounded-[40px]">
+                            <h3 class="text-2xl font-black mb-8 uppercase tracking-tight">Message Rapide</h3>
+                            <form onsubmit="event.preventDefault(); alert('Message envoyé avec succès !'); this.reset();" class="space-y-6">
+                                <input required placeholder="Votre Nom" class="w-full bg-white/5 border border-white/10 p-5 rounded-3xl outline-none focus:border-brand-indigo text-white font-bold">
+                                <textarea required placeholder="Comment pouvons-nous vous aider ?" class="w-full bg-white/5 border border-white/10 p-5 rounded-3xl outline-none h-40 focus:border-brand-indigo text-white font-bold"></textarea>
+                                <button type="submit" class="w-full bg-white text-black py-5 rounded-3xl font-black text-lg hover:bg-brand-indigo hover:text-white transition-all shadow-xl">ENVOYER</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION : ABOUT -->
+            <section id="about" class="page-section fade-in">
+                <div class="max-w-4xl mx-auto space-y-20">
+                    <h2 class="text-5xl md:text-8xl font-black text-center uppercase tracking-tighter italic">L'ADN FLORI</h2>
+                    <div class="border-l-[12px] border-brand-indigo pl-12 py-10">
+                        <p class="text-3xl md:text-5xl text-gray-100 leading-[1.1] font-light italic tracking-tight">
+                            "Le web n'est pas un gadget, c'est l'atout numéro 1 de votre succès futur. Nous sommes là pour le rendre invincible."
+                        </p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-16 pt-10">
+                        <div class="space-y-8">
+                            <div class="w-14 h-14 bg-indigo-600 rounded-2xl flex items-center justify-center"><i data-lucide="shield-check"></i></div>
+                            <h3 class="text-4xl font-black text-indigo-400 tracking-tighter uppercase">MISSION</h3>
+                            <p class="text-gray-400 text-xl leading-relaxed font-bold">
+                                Transformer chaque entrepreneur en leader digital grâce à des outils de pointe accessibles et redoutablement efficaces. Notre expansion à Kinshasa et Paris témoigne de notre ambition mondiale.
+                            </p>
+                        </div>
+                        <div class="space-y-8">
+                            <div class="w-14 h-14 bg-purple-600 rounded-2xl flex items-center justify-center"><i data-lucide="award"></i></div>
+                            <h3 class="text-4xl font-black text-purple-400 tracking-tighter uppercase">VALEURS</h3>
+                            <p class="text-gray-400 text-xl leading-relaxed font-bold">
+                                Rapidité, Transparence (max 250$ pour pack standard), et un Design d'élite qui laisse vos concurrents sans voix.
+                            </p>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -181,32 +348,119 @@
         </div>
     </main>
 
-    <!-- CHATBOT -->
+    <!-- ASSISTANT IA (CHATBOT FLOTTANT) -->
     <div class="fixed bottom-10 right-10 z-[100]">
-        <button onclick="toggleChat()" class="w-20 h-20 bg-brand-indigo rounded-full shadow-2xl flex items-center justify-center relative transition-transform hover:scale-110">
-            <i data-lucide="message-circle" id="c-open"></i>
-            <i data-lucide="x" id="c-close" class="hidden"></i>
+        <button onclick="toggleChat()" class="w-18 h-18 md:w-20 md:h-20 bg-brand-indigo rounded-full shadow-[0_15px_45px_rgba(79,70,229,0.6)] flex items-center justify-center relative transition-transform hover:scale-110 active:scale-95 group">
+            <i data-lucide="message-circle" id="c-open" class="w-10 h-10"></i>
+            <i data-lucide="x" id="c-close" class="hidden w-10 h-10"></i>
+            <span class="absolute -top-1 -right-1 w-7 h-7 bg-brand-purple rounded-full text-[11px] flex items-center justify-center font-black border-4 border-[#050508] animate-pulse">AI</span>
         </button>
-        <div id="c-window" class="hidden absolute bottom-24 right-0 w-[350px] h-[500px] immersive-card rounded-[40px] overflow-hidden flex flex-col fade-in">
-            <div class="p-6 bg-brand-indigo font-black">ASSISTANT AI FLORI</div>
-            <div id="c-messages" class="flex-grow p-6 overflow-y-auto space-y-4 bg-black/40 text-sm">
-                <div class="bg-white/5 p-4 rounded-2xl rounded-tl-none">Bonjour ! Comment puis-je propulser votre vision aujourd'hui ?</div>
+
+        <div id="c-window" class="hidden absolute bottom-24 right-0 w-[340px] md:w-[420px] h-[550px] immersive-card rounded-[50px] border-brand-indigo/40 overflow-hidden flex flex-col shadow-2xl fade-in">
+            <!-- Chat Header -->
+            <div class="p-8 bg-brand-indigo flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center"><i data-lucide="bot" class="w-7 h-7"></i></div>
+                    <div>
+                        <h3 class="font-black text-lg">Assistant Flori</h3>
+                        <div class="flex items-center gap-1.5 leading-none">
+                            <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                            <span class="text-[10px] font-black text-white/70 uppercase">Système IA Connecté</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="p-6 bg-[#050508] border-t border-white/5 flex gap-2">
-                <input id="c-input" onkeydown="if(event.key==='Enter') sendChat()" placeholder="Posez une question..." class="flex-grow bg-white/5 border border-white/10 p-4 rounded-2xl outline-none text-xs">
-                <button onclick="sendChat()" class="bg-brand-indigo p-4 rounded-2xl"><i data-lucide="send" class="w-5 h-5"></i></button>
+
+            <!-- Chat Content -->
+            <div id="c-messages" class="flex-grow p-8 overflow-y-auto space-y-6 bg-black/40">
+                <div class="flex">
+                    <div class="bg-white/5 border border-white/10 p-5 rounded-[25px] rounded-tl-none text-xs md:text-sm leading-relaxed max-w-[90%] text-gray-300 shadow-xl font-bold">
+                        Salutations ! Je suis l'intelligence artificielle de Flori Web Studio. <br><br> Prêt à donner vie à votre vision digitale ?
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Input -->
+            <div class="p-8 border-t border-white/5 bg-[#050508] flex gap-3">
+                <input id="c-input" onkeydown="if(event.key==='Enter') sendChat()" placeholder="Posez votre question..." class="flex-grow bg-white/5 border border-white/10 p-5 rounded-3xl text-sm outline-none focus:border-brand-indigo text-white font-bold">
+                <button onclick="sendChat()" class="bg-brand-indigo p-5 rounded-3xl hover:bg-brand-indigo/80 transition-all font-black"><i data-lucide="send" class="w-6 h-6 text-white"></i></button>
             </div>
         </div>
     </div>
 
+    <!-- PIED DE PAGE STATUT -->
+    <footer class="h-[100px] border-t border-white/5 flex flex-col md:flex-row items-center justify-between px-12 bg-black/60 backdrop-blur-xl z-20 py-4 gap-4">
+        <div class="flex items-center gap-10">
+            <div class="flex items-center gap-3">
+                <div class="w-2.5 h-2.5 bg-green-500 rounded-full shadow-[0_0_15px_green]"></div>
+                <span class="text-[10px] font-black text-gray-500 uppercase tracking-[0.4em]">Kinshasa (DRC) / Paris (FR)</span>
+            </div>
+        </div>
+        <div class="text-[11px] font-mono text-brand-indigo/60 uppercase tracking-[0.5em]">
+            © 2024 FLORI WEB STUDIO | // STATUS_V3.1_PRODUCTION
+        </div>
+    </footer>
+
+    <!-- LOGIQUE JAVASCRIPT ANIMÉE -->
     <script>
+        // NAVIGATION PAR SECTION
         function navigateTo(p) {
             document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
-            const target = document.getElementById(p);
-            if(target) target.classList.add('active');
-            window.scrollTo(0,0);
+            const t = document.getElementById(p);
+            if(t) t.classList.add('active');
+            window.scrollTo(0, 0);
+            lucide.createIcons();
         }
 
+        // MENU MOBILE
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        }
+        function mobileNavigate(p) {
+            toggleMobileMenu();
+            navigateTo(p);
+        }
+
+        // TÉMOIGNAGES
+        let dataT = [
+            { name: "Jean-Marc L.", company: "Innovate Plus", quote: "Flori Studio a doublé mon nombre de clients en un mois. Design incroyable !", photo: "https://api.dicebear.com/7.x/avataaars/svg?seed=John" },
+            { name: "Sarah M.", company: "GreenEat Inc.", quote: "Le meilleur investissement pour ma startup. Rapide et très pro.", photo: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah" },
+            { name: "Pastor Patrick", company: "Eglise Lumière", quote: "Notre plateforme communautaire est parfaite. Béni soit ce studio !", photo: "https://api.dicebear.com/7.x/avataaars/svg?seed=Patrick" }
+        ];
+
+        function drawT() {
+            const list = document.getElementById('t-list');
+            if(!list) return;
+            list.innerHTML = '';
+            dataT.forEach(t => {
+                list.innerHTML += `
+                    <div class="immersive-card p-12 rounded-[50px] fade-in group">
+                        <div class="flex items-center gap-5 mb-8">
+                            <img src="${t.photo}" class="w-16 h-16 rounded-full border-4 border-brand-indigo/30 transition-transform group-hover:scale-110">
+                            <div>
+                                <h4 class="font-black text-md tracking-tight uppercase">${t.name}</h4>
+                                <p class="text-[10px] text-brand-indigo uppercase font-black tracking-widest">${t.company}</p>
+                            </div>
+                        </div>
+                        <p class="text-md text-gray-400 italic leading-relaxed font-bold">"${t.quote}"</p>
+                    </div>
+                `;
+            });
+        }
+
+        function handleTestimonial(e) {
+            e.preventDefault();
+            const n = document.getElementById('name').value;
+            const c = document.getElementById('company').value;
+            const q = document.getElementById('quote-text').value;
+            dataT.unshift({ name: n, company: c, quote: q, photo: `https://api.dicebear.com/7.x/avataaars/svg?seed=${n}` });
+            drawT();
+            document.getElementById('t-notif').classList.remove('hidden');
+            e.target.reset();
+            setTimeout(() => document.getElementById('t-notif').classList.add('hidden'), 3500);
+        }
+
+        // DEVIS
         function submitQuote(e) {
             e.preventDefault();
             document.getElementById('quote-form-container').classList.add('hidden');
@@ -214,6 +468,7 @@
             lucide.createIcons();
         }
 
+        // CHATBOT
         function toggleChat() {
             document.getElementById('c-window').classList.toggle('hidden');
             document.getElementById('c-open').classList.toggle('hidden');
@@ -224,18 +479,81 @@
             const input = document.getElementById('c-input');
             const box = document.getElementById('c-messages');
             if(!input.value.trim()) return;
-            box.innerHTML += `<div class="flex justify-end"><div class="bg-brand-indigo p-4 rounded-2xl rounded-tr-none max-w-[80%]">${input.value}</div></div>`;
-            const low = input.value.toLowerCase();
+
+            const uMsg = input.value.trim();
+            box.innerHTML += `
+                <div class="flex justify-end">
+                    <div class="bg-brand-indigo text-white p-5 rounded-[25px] rounded-tr-none text-xs md:text-sm max-w-[85%] shadow-2xl font-bold">
+                        ${uMsg}
+                    </div>
+                </div>
+            `;
+
+            const low = uMsg.toLowerCase();
             input.value = '';
+            
             setTimeout(() => {
-                let r = "Je comprends ! Pour un résultat parfait, je vous conseille de demander un devis gratuit dans la section dédiée.";
-                if(low.includes('prix')) r = "Nos solutions d'élite vont de 50$ à 250$ maximum.";
-                box.innerHTML += `<div class="flex justify-start"><div class="bg-white/10 p-4 rounded-2xl rounded-tl-none max-w-[80%] text-gray-300 font-medium">${r}</div></div>`;
+                let r = "Je comprends parfaitement votre besoin. Pour un résultat d'élite, je vous conseille de demander un devis gratuit via la section dédiée !";
+                if(low.includes('prix') || low.includes('dollar') || low.includes('coût')) {
+                    r = "Nos solutions haute performance démarrent à 50$ et le prix maximum pour un projet standard complet est de 250$.";
+                } else if(low.includes('bonjour') || low.includes('salut')) {
+                    r = "Salutations digitales ! Comment Flori Web Studio peut booster votre présence sur le web aujourd'hui ?";
+                } else if(low.includes('portfolio') || low.includes('vu')) {
+                    r = "Consultez notre section 'Portfolio' ! Nous avons réalisé des projets d'acquisition, des portails éducatifs et des expériences virtuelles.";
+                }
+
+                box.innerHTML += `
+                    <div class="flex justify-start fade-in">
+                        <div class="bg-white/5 border border-white/10 p-5 rounded-[30px] rounded-tl-none text-xs md:text-sm max-w-[90%] text-gray-300 font-bold">
+                            ${r}
+                        </div>
+                    </div>
+                `;
                 box.scrollTop = box.scrollHeight;
-            }, 600);
+            }, 800);
         }
 
-        window.onload = () => lucide.createIcons();
+        // PORTFOLIO DATA
+        let dataP = [
+            { title: "Vanguard Acquisition", cat: "Acquisition Client", status: "Terminé", desc: "Solution complète de représentation digitale conçue pour maximiser l'acquisition de nouveaux clients. Intégration de tunnels de vente IA et optimisation du copywriting pour une conversion immédiate." },
+            { title: "Nova Edu Portal", cat: "Projets Déjà Créés", status: "Terminé", desc: "Exemple de portail académique robuste gérant des milliers d'étudiants. Une architecture cloud scalable avec une interface utilisateur intuitive pour la gestion des cours et des notes en temps réel." },
+            { title: "Cyber City VR", cat: "Site Virtuel", status: "En Cours", desc: "Expérience interactive utilisant WebGL pour offrir une visite virtuelle immersive d'un complexe urbain futuriste. La fusion entre le web traditionnel et la réalité virtuelle accessible sans casque." },
+            { title: "SaaS Flow", cat: "Projets en Cours", status: "Construction", desc: "Une nouvelle plateforme révolutionnaire pour les créateurs. Actuellement en phase de test utilisateur, ce projet repousse les limites de la visualisation de données en temps réel." },
+            { title: "The Masterpiece", cat: "Sites Déjà Terminés", status: "Terminé", desc: "Notre dernière réalisation majeure, livrée avec succès. Plateforme communautaire de haute performance offrant streaming en direct, gestion des dons sécurisée et espace membres." },
+            { title: "Future Portal", cat: "Sites en Construction", status: "Alpha", desc: "Le futur portail de gestion administrative pour les écoles. Ce projet intègre des fonctionnalités révolutionnaires d'automatisation par IA directement dans le navigateur." }
+        ];
+
+        function drawP() {
+            const list = document.getElementById('p-grid');
+            if(!list) return;
+            list.innerHTML = '';
+            dataP.forEach(p => {
+                const isTermined = p.status === 'Terminé';
+                list.innerHTML += `
+                    <div class="immersive-card p-10 rounded-[45px] flex flex-col justify-between group">
+                        <div>
+                            <div class="flex justify-between items-center mb-8">
+                                <span class="bg-brand-indigo/10 text-brand-indigo text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full border border-brand-indigo/20">${p.cat}</span>
+                                <span class="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-widest ${isTermined ? 'text-green-400' : 'text-blue-400'}">
+                                    <span class="w-1.5 h-1.5 rounded-full ${isTermined ? 'bg-green-500 shadow-[0_0_8px_green]' : 'bg-blue-500 animate-pulse'}"></span>
+                                    ${p.status}
+                                </span>
+                            </div>
+                            <h3 class="text-3xl font-black mb-4 uppercase tracking-tighter italic">${p.title}</h3>
+                            <p class="text-gray-400 font-bold text-sm leading-relaxed mb-10">${p.desc}</p>
+                        </div>
+                        <button onclick="alert('Démo bientôt disponible !')" class="w-full bg-white/5 border border-white/10 py-4 rounded-2xl font-black text-[10px] uppercase tracking-[0.3em] hover:bg-brand-indigo hover:text-white transition-all shadow-xl">Explorer le Projet</button>
+                    </div>
+                `;
+            });
+        }
+
+        // INITIALISATION
+        window.onload = () => {
+            drawT();
+            drawP();
+            lucide.createIcons();
+        };
     </script>
 </body>
 </html>
